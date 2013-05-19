@@ -12,6 +12,7 @@ var express = require('express')
 var app = express();
 
 // all environments
+app.locals.basedir = "/Users/len/repos/LenSite/"
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -20,7 +21,9 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
+app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -28,10 +31,11 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-console.log(routes);
-console.log(routes.index);
-console.log(routes.user);
-app.get('/users', routes.user.list);
+app.get('/resume', routes.resume);
+app.get('/portfolio', routes.portfolio);
+app.get('/contact', routes.contact);
+app.get('/blog', routes.blog);
+app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

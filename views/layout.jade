@@ -1,7 +1,19 @@
 doctype 5
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    block headvars
+    title= 'Michael Len | ' + title 
+    //link(rel='stylesheet', href='/stylesheets/style.css')
+    include /public/stylesheets/style.css
+
+  body.default
+    #nav
+      a#home(href="/") Home
+      a#resume(href="resume") Resume
+      a#portfolio(href="portfolio") Portfolio
+      a#blog(href="blog") Blog
+      a#contact(href="contact") Contact
+
+    block header
+
     block content
