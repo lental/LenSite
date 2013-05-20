@@ -5,15 +5,37 @@ html
     title= 'Michael Len | ' + title 
     //link(rel='stylesheet', href='/stylesheets/style.css')
     include /public/stylesheets/style.css
+    //include /components/jquery/jquery.js
+    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+    script(type="text/javascript")
+      $('document').ready(function() {
+        $('.ui-selector').change(function(e) {
+          //alert('handler called for ui-selector: ' + this.value);
+          $('body').removeClass().addClass(this.value);
+        });
+        $('.ui-selector').focus()
+      });
 
   body.default
+    div
+      select.ui-selector
+        list = ['simple', 'advanced']
+        for item in list
+          option #{item}
     #nav
-      a#home(href="/") Home
-      a#resume(href="resume") Resume
-      a#portfolio(href="portfolio") Portfolio
-      a#blog(href="blog") Blog
-      a#contact(href="contact") Contact
+      li 
+        a#home(href="/") Home
+      li 
+        a#resume(href="resume") Resume
+      li 
+        a#portfolio(href="portfolio") Portfolio
+      li 
+        a#blog(href="blog") Blog
+      li 
+        a#contact(href="contact") Contact
+      li 
+        a#contact(href="todo") Todo 
 
-    block header
-
-    block content
+    #content
+      block header
+      block content

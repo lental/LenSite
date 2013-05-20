@@ -6,8 +6,10 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , todo = require('./routes/todo')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , stylus = require('stylus');
 
 var app = express();
 
@@ -21,7 +23,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
+app.use(stylus.middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -36,6 +38,7 @@ app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
 app.get('/blog', routes.blog);
 app.get('/users', user.list);
+app.get('/todo', todo.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
