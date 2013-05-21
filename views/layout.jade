@@ -3,25 +3,23 @@ html
   head
     block headvars
     title= 'Michael Len | ' + title 
+
     //link(rel='stylesheet', href='/stylesheets/style.css')
+    //script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+
     include /public/stylesheets/style.css
-    //include /components/jquery/jquery.js
-    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
-    script(type="text/javascript")
-      $('document').ready(function() {
-        $('.ui-selector').change(function(e) {
-          //alert('handler called for ui-selector: ' + this.value);
-          $('body').removeClass().addClass(this.value);
-        });
-        $('.ui-selector').focus()
-      });
+    include /components/jquery/jquery.min.js
+    include /views/fragments/logo-animation.js
 
   body.simple
+    #head
+      img#ml(src='images/ml-sm.png')
     div
       select.ui-selector
         list = ['simple', 'advanced']
         for item in list
           option #{item}
+
     #nav
       li 
         a#home(href="/") Home
