@@ -1,0 +1,24 @@
+extends layout
+
+block headvars
+  - var title = "Todo.edit"
+
+block header 
+  .main-title
+    h1 #{title} 
+
+
+block content
+  p Lets edit this list
+  .todo
+    ul
+      - for (var i in tasks)
+        p #{tasks[i].description}
+          if tasks[i].is_done > 0
+            |: 
+            span.done-text Done!
+          else
+            button done-ify
+      form(action="/todo/add", method="post")
+        input(type="text", name="description", placeholder="New task")
+        input(type="submit")

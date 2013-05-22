@@ -40,6 +40,7 @@ app.get('/contact', routes.contact);
 app.get('/blog', routes.blog);
 app.get('/users', user.list);
 app.get('/todo', todo.index);
+app.get('/todo/edit', todo.edit);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
