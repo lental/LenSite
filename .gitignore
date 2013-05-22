@@ -14,5 +14,6 @@ results
 node_modules
 components
 stylus/compiled
+public/javascripts
 
 npm-debug.log
