@@ -1,15 +1,17 @@
 doctype 5
 html
   head
-    block headvars
-    title= 'Michael Len | ' + title 
+    include /public/stylesheets/style.css
+    include /components/jquery/jquery.min.js
+
+    meta(name='google-site-verification', content='1YuKro8iXOdfGOpxAUc1iJ8MucBM4MBuPx4S2stTRkA')
 
     //link(rel='stylesheet', href='/stylesheets/style.css')
     //script(src='http://code.jquery.com/jquery-1.9.1.min.js')
     //script(src='javascripts/jquery-min.js')
-
-    include /public/stylesheets/style.css
-    include /components/jquery/jquery.min.js
+    include /views/fragments/common.js
+    block headvars
+    title= 'Michael Len | ' + title 
     //include /views/fragments/logo-animation.js
 
   body.simple
@@ -23,17 +25,17 @@ html
 
     #nav
       li 
-        a#home(href="/") Home
+        a#home(href='/') Home
       li 
-        a#resume(href="resume") Resume
+        a#resume(href='resume') Resume
       li 
-        a#portfolio(href="portfolio") Portfolio
+        a#portfolio(href='portfolio') Portfolio
       li 
-        a#blog(href="blog") Blog
+        a#blog(href='blog') Blog
       li 
-        a#contact(href="contact") Contact
+        a#contact(href='contact') Contact
       li 
-        a#contact(href="todo") Todo 
+        a#contact(href='todo') Todo 
 
     #content
       block header

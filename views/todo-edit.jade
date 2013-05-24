@@ -1,7 +1,8 @@
 extends layout
 
 block headvars
-  - var title = "Todo.edit"
+  - var title = 'Todo.edit'
+  include /views/fragments/gplus.js
 
 block header 
   .main-title
@@ -10,15 +11,28 @@ block header
 
 block content
   p Lets edit this list
+  div#gConnect
+    button.g-signin(
+      data-scope='https://www.googleapis.com/auth/plus.me',
+      data-requestvisibleactions='http://schemas.google.com/AddActivity',
+      data-clientId='206310899512.apps.googleusercontent.com',
+      data-callback='onSignInCallback',
+      data-theme='dark',
+      data-cookiepolicy='single_host_origin',
+      )
+  .authOps(style='display:none')
+    button.disconnect(onClick='onDisconnect()') Disconnect from G+
+    #profile
   .todo
-    ul
+    ul.task-list
       - for (var i in tasks)
         p #{tasks[i].description}
           if tasks[i].is_done > 0
             |: 
             span.done-text Done!
           else
-            button done-ify
-      form(action="/todo/add", method="post")
-        input(type="text", name="description", placeholder="New task")
-        input(type="submit")
+            button.doneify(data-taskId='#{tasks[i].id}') done-ify
+      form#task-form()
+        input#text(type='text', name='description', placeholder='New task')
+        input#token(type='hidden', name='accessToken')
+        input#submit(type='submit')
