@@ -4,5 +4,7 @@
  */
 
 exports.list = function(req, res){
-  res.send("respond with a resource");
+  console.log(req.session);
+  console.log("req last page " + req.session.lastPage);
+  res.send(req.session);
 };
