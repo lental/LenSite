@@ -4,43 +4,42 @@ block headvars
   - var title = 'Todo'
   include /views/fragments/gplus.js
 
-block header 
-  .main-title
-    h1 #{title} 
-
-
 block content
-  p Lets edit this list
   div#gConnect
-    button.g-signin(
-      data-scope='https://www.googleapis.com/auth/plus.me',
-      data-requestvisibleactions='http://schemas.google.com/AddActivity',
-      data-clientId='206310899512.apps.googleusercontent.com',
-      data-callback='onSignInCallback',
-      data-redirecturi="postmessage",
-      data-theme='dark',
-      data-cookiepolicy='single_host_origin',
-      )
-  .authOps(style='display:none')
-    button.disconnect(onClick='onDisconnect()') Disconnect from G+
-    #profile
-  .todo
-    table.task-list
-      - for (var i in tasks)
-        tr
-          td.button-cell
-            if tasks[i].is_done > 0
-              span.done-text Done!
-            else
-              button.doneify(data-taskId='#{tasks[i].id}') done-ify
-          td.task-cell
-            p #{tasks[i].description}
-      tr.submit-row
-        td
-        td
-          form#task-form()
-            input#text(type='text', name='description', placeholder='New task')
-            input#code(type='hidden', name='code')
-            input#submit(type='submit')
-            span#error
-            span#result
+    .gButton
+      button.g-signin(
+        data-scope='https://www.googleapis.com/auth/plus.me',
+        data-requestvisibleactions='http://schemas.google.com/AddActivity',
+        data-clientId='206310899512.apps.googleusercontent.com',
+        data-callback='onSignInCallback',
+        data-redirecturi="postmessage",
+        data-theme='dark',
+        data-cookiepolicy='single_host_origin',
+        )
+    .authOps(style='display:none')
+      button.disconnect(onClick='onDisconnect()') Disconnect from G+
+      #profile
+  .content#todo-content
+    .main-title
+      h1 #{title}
+    p Lets edit this list
+    .todo
+      table.task-list
+        - for (var i in tasks)
+          tr
+            td.button-cell
+              if tasks[i].is_done > 0
+                span.done-text Done!
+              else
+                button.doneify(data-taskId='#{tasks[i].id}') done-ify
+            td.task-cell
+              p #{tasks[i].description}
+        tr.submit-row
+          td
+          td
+            form#task-form()
+              input#text(type='text', name='description', placeholder='New task')
+              input#code(type='hidden', name='code')
+              input#submit(type='submit')
+              span#error
+              span#result

@@ -12,9 +12,6 @@ a
 .done-text
   color: #44CC44
 
-#content
-  width 100%
-
 #ml
   height 130px
 
@@ -34,32 +31,51 @@ div.main-title
     opacity 1.0
     left 0px
 
- //This is Todo-Only!!!!
+/* Resume Only! */
+#resume-content
+  .section
+    float:left
+    vertical-align top
+    margin 5px
+    padding 5px
+    background-color #666
 
-.todo input
-  display none
+  #work-experience
+    min-width 400px
+    max-width 600px
+  #education
+    max-width 400px
+  #languages
+    max-width 200px
+  #other-skills
+    max-width 200px
+/* End Resume */
 
-.todo .doneify
-  display none
-/*
-tr:nth-child({even})
-  background: #CCC
-  */
+/*This is Todo-Only!*/
 
-td.button-cell
-  min-width 85px
+#todo-content
+  .todo input
+    display none
 
-.todo tr:nth-child({odd})
-  background #555
+  .todo .doneify
+    display none
 
-.g-signin
-  display none
+  td.button-cell
+    min-width 85px
 
-#gConnect
-  float right
+  .todo tr:nth-child({odd})
+    background #555
 
-.authOps
-  float right
+  .g-signin
+    display none
 
-#error
-  color #CC0000
+  #gConnect
+    float right
+
+  .authOps
+    float right
+
+  #error
+    color #CC0000
+
+  /* End Todo */

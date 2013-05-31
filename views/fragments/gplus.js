@@ -25,7 +25,7 @@ var helper = (function() {
         }
         if (authResult['access_token']) {
           $('.authOps').show('slow');
-          $('#gConnect').hide();
+          $('.gButton').hide();
           helper.profile();
           helper.people();
           $('#task-form #code').val(authResult['code']);
@@ -42,7 +42,7 @@ var helper = (function() {
           console.log('There was an error: ' + authResult['error']);
           $('#authResult').append('Logged out');
           $('.authOps').hide('slow');
-          $('#gConnect').show();
+          $('.gButton').show();
           $('#task-form #code').val(authResult['code']);
           $('#task-form #text').hide();
           $('#task-form #submit').hide();
@@ -73,7 +73,7 @@ var helper = (function() {
           $('#profile').empty();
           $('#visiblePeople').empty();
           $('#authResult').empty();
-          $('#gConnect').show();
+          $('.gButton').show();
           $('#task-form #code').val('');
           $('#task-form #text').hide('slow');
           $('#task-form #submit').hide('slow');

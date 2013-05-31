@@ -4,6 +4,13 @@ block headvars
   - var title = "Blog"
 
 block content
-  div.main-title
-    h1 #{title}
-  p This will be the #{title}
+  .content#blog-content
+    div.main-title
+      h1 #{title}
+    p This will be the #{title}
+
+    - for (var i in posts)
+      .post
+        h2 #{posts[i].title}
+        h3 #{posts[i].created_at}
+        p #{posts[i].body}
