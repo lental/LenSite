@@ -2,7 +2,7 @@
 
 @import 'nib'
 body
-  padding: 50px
+  padding: 0px 20px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
   background-color #444
   color #DDDDDD
@@ -38,20 +38,28 @@ div.main-title
     vertical-align top
     margin 5px
     padding 5px
-    background-color #666
+    border-left: thick solid #000
 
   #work-experience
     min-width 400px
     max-width 600px
   #education
     max-width 400px
-  #languages
-    max-width 200px
-  #other-skills
-    max-width 200px
+//  #languages
+//  #other-skills
 /* End Resume */
 
 /*This is Todo-Only!*/
+
+
+.g-signin
+  display none
+
+#gConnect
+  float right
+
+.authOps
+  float right
 
 #todo-content
   .todo input
@@ -65,15 +73,6 @@ div.main-title
 
   .todo tr:nth-child({odd})
     background #555
-
-  .g-signin
-    display none
-
-  #gConnect
-    float right
-
-  .authOps
-    float right
 
   #error
     color #CC0000
