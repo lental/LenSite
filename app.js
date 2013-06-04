@@ -10,6 +10,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , todo = require('./routes/todo')
+  , blog = require('./routes/blog')
   , config = require('./config/config');
 
 var app = express();
@@ -41,7 +42,7 @@ app.get('/', routes.index);
 app.get('/resume', routes.resume);
 app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
-app.get('/blog', routes.blog);
+app.get('/blog', blog.index);
 app.get('/users', user.list);
 
 app.get('/todo', todo.index);
