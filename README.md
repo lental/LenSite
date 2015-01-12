@@ -23,5 +23,28 @@ exports.session = {
   secretKey:"another_secret"
 };
 
+mysql> show create table users\G
+*************************** 1. row ***************************
+       Table: users
+Create Table: CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gplus_id` varchar(255) DEFAULT NULL,
+  `can_add` tinyint(1) DEFAULT NULL,
+  `can_remove` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)
 
-create table tasks ( id int auto_increment primary key, is_done bit, description varchar(255), done_at timestamp, created_at timestamp not null default CURRENT_TIMESTAMP );
+mysql> show create table tasks\G
+*************************** 1. row ***************************
+       Table: tasks
+Create Table: CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_done` tinyint(1) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `done_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ordering` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)

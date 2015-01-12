@@ -26,9 +26,9 @@ exports.index = function(req, res) {
 /**
  * Process someone completing a task
  */
-function processComplete(req, client, oauth2Client, res) {
+function processComplete(req, plus, oauth2Client, res) {
 
-  client.plus.people.get({ userId: 'me' }).withAuthClient(oauth2Client).execute(function (err, user) {
+    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
     if (err) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
@@ -83,8 +83,8 @@ function processComplete(req, client, oauth2Client, res) {
 /**
  * Process someone adding a task
  */
-function processAdd(req, client, oauth2Client, res) {
-client.plus.people.get({ userId: 'me' }).withAuthClient(oauth2Client).execute(function (err, user) {
+function processAdd(req, plus, oauth2Client, res) {
+plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
     if (err) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
@@ -130,28 +130,28 @@ client.plus.people.get({ userId: 'me' }).withAuthClient(oauth2Client).execute(fu
         }
       });
     }
-
   });
 }
 
 //Retrieve token from session or use the provided auth code
 function findTokenAndProcess(req, res, callback) {
   var redirectUri = "postmessage";
-  var googleapis = require('googleapis'),
-      OAuth2Client = googleapis.OAuth2Client;
+  var google = require('googleapis'),
+      OAuth2 = google.auth.OAuth2;
 
   //Get the G+ API
-  googleapis.discover('plus', 'v1').execute(function(err, client) {
+  var plus = google.plus('v1');
+  // plus.execute(function(err, client) {
 
       var oauth2Client =
-          new OAuth2Client(config.gplus.clientId, config.gplus.clientSecret, redirectUri);
+          new OAuth2(config.gplus.clientId, config.gplus.clientSecret, redirectUri);
 
       //If we have a g+ token in the session for this user
       if (req.session.gPlusToken) {
         console.log("USING ALREADY STORED TOKENS!! " + req.session.gPlusToken);
         oauth2Client.credentials = req.session.gPlusToken;
 
-        callback(req, client, oauth2Client, res)
+        callback(req, plus, oauth2Client, res)
       }
 
       //Otherwise, get use the provided token
@@ -166,11 +166,11 @@ function findTokenAndProcess(req, res, callback) {
             oauth2Client.credentials = tokens;
             req.session.gPlusToken = tokens;
 
-            callback(req, client, oauth2Client, res)
+            callback(req, plus, oauth2Client, res)
           }
         });
       }
-  });
+  // });
 }
 
 /**
