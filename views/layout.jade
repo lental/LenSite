@@ -1,15 +1,17 @@
-doctype 5
+doctype html
 html
   head
-    include /public/stylesheets/style.css
-    include /components/jquery/jquery.min.js
+    style
+      include ../public/stylesheets/style.css
+    script
+      include ../public/javascripts/jquery-min.js
+      include ../views/fragments/common.js
 
     meta(name='google-site-verification', content='1YuKro8iXOdfGOpxAUc1iJ8MucBM4MBuPx4S2stTRkA')
 
     //link(rel='stylesheet', href='/stylesheets/style.css')
     //script(src='http://code.jquery.com/jquery-1.9.1.min.js')
     //script(src='javascripts/jquery-min.js')
-    include /views/fragments/common.js
     block headvars
     title= 'Michael Len | ' + title
     //include /views/fragments/logo-animation.js
@@ -19,8 +21,8 @@ html
       img#ml(src='/images/ml-sm.png')
     div
       select.ui-selector
-        list = ['simple', 'advanced']
-        for item in list
+        - var list = ['simple', 'advanced']
+        each item in list
           option #{item}
 
     #nav

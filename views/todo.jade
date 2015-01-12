@@ -2,13 +2,14 @@ extends layout
 
 block headvars
   - var title = 'Todo'
-  include /views/fragments/gplus.js
+  script
+    include ../views/fragments/gplus.js
 
 block content
   div#gConnect
     .gButton
       button.g-signin(
-        data-scope='https://www.googleapis.com/auth/plus.me',
+        data-scope='https://www.googleapis.com/auth/plus.login',
         data-requestvisibleactions='http://schemas.google.com/AddActivity',
         data-clientId='206310899512.apps.googleusercontent.com',
         data-callback='onSignInCallback',
