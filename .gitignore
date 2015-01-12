@@ -12,7 +12,7 @@ pids
 logs
 results
 node_modules
-components
+bower_components
 stylus/compiled
 public/javascripts
 config
