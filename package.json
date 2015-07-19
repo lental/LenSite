@@ -14,6 +14,7 @@
           "bower": "*",
           "mysql": "2.0.0-alpha8",
      "googleapis": "*",
-    "daemonize2" : "*"
+    "daemonize2" : "*",
+    "node-mysql-blog-api" : "*"
   }
 }
