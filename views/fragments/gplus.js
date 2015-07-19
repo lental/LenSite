@@ -139,6 +139,27 @@ function onDisconnect() {
   helper.disconnect();
 }
 
+function doneifyClick(){
+   $.ajax({
+             type: 'POST',
+             url: '/todo/complete',
+             data: { taskId : $(this).data('taskid'),
+                      code : $('#task-form #code').val()
+             }, // serializes the form's elements.
+             success: function(data) {
+               var btn = $('.doneify[data-taskId=' + data.taskId + ']');
+               btn.hide();
+               $('<span class="done-text">Done!</span>').insertAfter(btn);
+             },
+             error: function(jqXHR, textStatus, errorThrown) {
+               $('this').val('error ;(');
+               $('this').removeAttr('disabled');
+               $('#task-form #error').text("Error: " + errorThrown);
+             }
+           });
+    $('this').val('doing...');
+    $('this').attr('disabled', 'disabled');
+}
 
 $(document).ready( function() {
   $('#task-form').submit(function() {
@@ -149,7 +170,11 @@ $(document).ready( function() {
              data: $('#task-form').serialize(), // serializes the form's elements.
              success: function(data) {
              console.log(data);
-                 $('<tr><td></td><td>' + data.description  +'</td></tr>').insertBefore('.submit-row');
+                 var doneifyButton = $('<button class="doneify" data-taskId="' + data.taskId + '">done-ify</button>');
+                 doneifyButton.click(doneifyClick);
+                 var doneifyElem = $('<td class="button-cell"></td>').append(doneifyButton);
+                 var descriptionElem = $('<td class="task-cell">' + data.description  +'</td>');
+                 $('<tr></tr>').append(doneifyElem).append(descriptionElem).insertBefore('.submit-row');
                  $('#task-form #text').val("");
                  $('#task-form #error').text("");
                  $('#task-form #result').text("Added!");
@@ -170,25 +195,5 @@ $(document).ready( function() {
     return false;
   });
 
-  $('.doneify').click(function() {
-    $.ajax({
-             type: 'POST',
-             url: '/todo/complete',
-             data: { taskId : $(this).data('taskid'),
-                      code : $('#task-form #code').val()
-             }, // serializes the form's elements.
-             success: function(data) {
-               var btn = $('.doneify[data-taskId=' + data.taskId + ']');
-               btn.hide();
-               $('<span class="done-text">Done!</span>').insertAfter(btn);
-             },
-             error: function(jqXHR, textStatus, errorThrown) {
-               $('this').val('error ;(');
-               $('this').removeAttr('disabled');
-               $('#task-form #error').text("Error: " + errorThrown);
-             }
-           });
-    $('this').val('doing...');
-    $('this').attr('disabled', 'disabled');
-  });
+  $('.doneify').click(doneifyClick);
 });

@@ -117,7 +117,8 @@ plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
               } else {
                 console.log(info.insertId);
                 console.log("Submission complete!");
-                res.send({description : req.body.description}, 200);
+                res.send({taskId : info.insertId, 
+                          description : req.body.description}, 200);
               }
             });
           } else {
