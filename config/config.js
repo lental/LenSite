@@ -8,7 +8,6 @@ exports.session = {
   secretKey:process.env.LENSITE_SESSION_SECRET_KEY
 };
 
-
 exports.mysql = {
   host:process.env.LENSITE_DB_HOSTNAME,
   user:process.env.LENSITE_DB_USER,
