@@ -14,11 +14,9 @@ exports.index = function(req, res) {
 
   connection.query('SELECT * from tasks', function(err, rows, fields) {
     if (err) {
-      console.log("tasks select user: " + err);
-      res.send('Failed select for tasks', 500);
-    } else {
-      res.render('todo', { tasks: rows });
+      console.log("tasks select user error: " + err);
     }
+    res.render('todo', { tasks: rows });
   });
 
   connection.end();
