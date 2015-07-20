@@ -71,9 +71,9 @@ function processComplete(req, plus, oauth2Client, res) {
             res.send('User unauthorized to complete', 401);
           }
         }
+        connection.end();
       });
       
-      connection.end();
     }
   });
 
