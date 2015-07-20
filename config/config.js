@@ -1,7 +1,7 @@
 
 exports.gplus = {
   clientId:process.env.LENSITE_GPLUS_CLIENT_ID,
-  clientSecret:process.env.LENSITE_GPLUS_CLIENT_SECRET
+  secret:process.env.LENSITE_GPLUS_SECRET
 };
 
 exports.session = {

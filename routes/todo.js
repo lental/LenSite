@@ -1,15 +1,19 @@
 var config = require('../config/config');
 
-/*
- * GET home page.
- */
-exports.index = function(req, res) {
-  var mysql      = require('mysql');
-  var connection = mysql.createConnection({
+function getMysqlConnection() {
+  var mysql = require('mysql');
+  return mysql.createConnection({
     host    : config.mysql.host,
     user    : config.mysql.user,
     database: config.mysql.database,
     password: config.mysql.password });
+}
+
+/*
+ * GET home page.
+ */
+exports.index = function(req, res) {
+  var connection = getMysqlConnection();
   connection.connect();
 
   connection.query('SELECT * from tasks', function(err, rows, fields) {
@@ -32,11 +36,7 @@ function processComplete(req, plus, oauth2Client, res) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
     } else {
-      var mysql      = require('mysql');
-      var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        database : 'lensite' });
+      var connection = getMysqlConnection();
       connection.connect();
 
       //Check to ensure user has permissions to finish tasks
@@ -88,11 +88,7 @@ plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
     } else {
-      var mysql      = require('mysql');
-      var connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        database : 'lensite' });
+      var connection = getMysqlConnection();
       connection.connect();
 
       var query = 'SELECT * from users where gplus_id=' + connection.escape(user.id) + ' AND can_add=1;';
@@ -143,8 +139,10 @@ function findTokenAndProcess(req, res, callback) {
   var plus = google.plus('v1');
   // plus.execute(function(err, client) {
 
+console.log(config.gplus.clientId);
+console.log(config.gplus.secret);
       var oauth2Client =
-          new OAuth2(config.gplus.clientId, config.gplus.clientSecret, redirectUri);
+          new OAuth2(config.gplus.clientId, config.gplus.secret, redirectUri);
 
       //If we have a g+ token in the session for this user
       if (req.session.gPlusToken) {
