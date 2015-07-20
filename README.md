@@ -18,16 +18,12 @@ Daemonized:
 
 
 You will need:
-config/config with gplus client ID and secret
-
-exports.gplus = {
-  clientId:"id",
-  clientSecret:"secret"
-};
-
-exports.session = {
-  secretKey:"another_secret"
-};
+the following environment variables created
+<pre>
+export LENSITE_GPLUS_CLIENT_ID=
+export LENSITE_GPLUS_SECRET=
+export LENSITE_SESSION_SECRET_KEY=
+<pre>
 
 <pre>
 mysql> show create table users\G
