@@ -13,7 +13,7 @@
          "stylus": "*",
             "nib": "*",
           "bower": "*",
-          "mysql": "2.0.0-alpha8",
+          "mysql": "*",
      "googleapis": "*",
     "daemonize2" : "*",
     "node-mysql-blog-api" : "*"

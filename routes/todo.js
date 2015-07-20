@@ -1,29 +1,23 @@
 var config = require('../config/config');
+var mysql = require('mysql');
 
-function getMysqlConnection() {
-  var mysql = require('mysql');
-  return mysql.createConnection({
+var pool  = mysql.createPool({
+    connectionLimit : 10,
     host    : config.mysql.host,
     user    : config.mysql.user,
     database: config.mysql.database,
     password: config.mysql.password });
-}
 
 /*
  * GET home page.
  */
 exports.index = function(req, res) {
-  var connection = getMysqlConnection();
-  connection.connect();
-
-  connection.query('SELECT * from tasks', function(err, rows, fields) {
+  pool.query('SELECT * from tasks', function(err, rows, fields) {
     if (err) {
       console.log("tasks select user error: " + err);
     }
     res.render('todo', { tasks: rows });
   });
-
-  connection.end();
 };
 
 /**
@@ -36,12 +30,10 @@ function processComplete(req, plus, oauth2Client, res) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
     } else {
-      var connection = getMysqlConnection();
-      connection.connect();
 
       //Check to ensure user has permissions to finish tasks
-      var query = 'SELECT * from users where gplus_id=' + connection.escape(user.id) + ' AND can_remove=1;';
-      connection.query(query, function(err, db_users, fields) {
+      var query = 'SELECT * from users where gplus_id=' + pool.escape(user.id) + ' AND can_remove=1;';
+      pool.query(query, function(err, db_users, fields) {
         if (err) {
           console.log("error user: " + err);
           res.send('Invalid user query', 500);
@@ -53,9 +45,9 @@ function processComplete(req, plus, oauth2Client, res) {
             console.log(user.displayName + ", " + user.id);
 
             var query = 'update tasks set is_done=1, done_at=current_timestamp() where id=' +
-                        connection.escape(req.body.taskId) + ';';
+                        pool.escape(req.body.taskId) + ';';
             console.log(query);
-            connection.query(query, function(err, info, fields) {
+            pool.query(query, function(err, info, fields) {
               if (err) {
                 console.log("error completion: " + err);
                 res.send('Invalid completion query', 500);
@@ -71,7 +63,6 @@ function processComplete(req, plus, oauth2Client, res) {
             res.send('User unauthorized to complete', 401);
           }
         }
-        connection.end();
       });
       
     }
@@ -89,11 +80,8 @@ plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
       console.log("error user: " + err);
       res.send('Invalid gplus people query', 500);
     } else {
-      var connection = getMysqlConnection();
-      connection.connect();
-
-      var query = 'SELECT * from users where gplus_id=' + connection.escape(user.id) + ' AND can_add=1;';
-      connection.query(query, function(err, db_users, fields) {
+      var query = 'SELECT * from users where gplus_id=' + pool.escape(user.id) + ' AND can_add=1;';
+      pool.query(query, function(err, db_users, fields) {
         if (err) {
           console.log("error user: " + err)
           res.send('Invalid user query', 500);
@@ -105,8 +93,8 @@ plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
             console.log(user.displayName + ", " + user.id);
 
             var query = 'insert into tasks (ordering,description) SELECT 1 + coalesce((SELECT max(ordering)' +
-               ' FROM tasks),0), ' + connection.escape(req.body.description) + ';';
-            connection.query(query, function(err, info, fields) {
+               ' FROM tasks),0), ' + pool.escape(req.body.description) + ';';
+            pool.query(query, function(err, info, fields) {
               if (err) {
                 console.log('error insert: ' + err);
                 res.send('Invalid insertion query', 500);
@@ -122,8 +110,6 @@ plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
             console.log(user.displayName + ", " + user.id);
             res.send('User unauthorized to add', 401);
           }
-
-          connection.end();
         }
       });
     }
