@@ -6,6 +6,7 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
+  , newrelic = require('newrelic')
   , stylus = require('stylus')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -44,6 +45,7 @@ app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
 app.get('/blog', blog.index);
 app.get('/blog/createPost', blog.createPost);
+app.get('/blog/add', blog.add);
 app.get('/users', user.list);
 
 app.get('/todo', todo.index);
