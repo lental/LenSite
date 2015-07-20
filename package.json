@@ -16,6 +16,7 @@
           "mysql": "*",
      "googleapis": "*",
     "daemonize2" : "*",
-    "node-mysql-blog-api" : ">=0.0.31"
+    "node-mysql-blog-api" : ">=0.0.31",
+    "newrelic"   : "*"
   }
 }
