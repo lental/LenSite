@@ -45,7 +45,6 @@ app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
 app.get('/blog', blog.index);
 app.get('/blog/createPost', blog.createPost);
-app.get('/blog/add', blog.add);
 app.get('/users', user.list);
 
 app.get('/todo', todo.index);
