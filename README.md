@@ -27,7 +27,7 @@ export LENSITE_DB_USER=
 export LENSITE_DB_PASSWORD=
 export LENSITE_DB_HOSTNAME="
 export LENSITE_DB_DATABASE_NAME=
-<pre>
+</pre>
 
 <pre>
 mysql> show create table users\G
