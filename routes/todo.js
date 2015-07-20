@@ -139,8 +139,6 @@ function findTokenAndProcess(req, res, callback) {
   var plus = google.plus('v1');
   // plus.execute(function(err, client) {
 
-console.log(config.gplus.clientId);
-console.log(config.gplus.secret);
       var oauth2Client =
           new OAuth2(config.gplus.clientId, config.gplus.secret, redirectUri);
 
