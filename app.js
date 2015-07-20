@@ -3,10 +3,10 @@
  * Module dependencies.
  */
 
+require('newrelic');
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , newrelic = require('newrelic')
   , stylus = require('stylus')
   , routes = require('./routes')
   , user = require('./routes/user')
