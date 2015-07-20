@@ -6,9 +6,10 @@ var config = require('../config/config');
 exports.index = function(req, res) {
   var mysql      = require('mysql');
   var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    database : 'lensite' });
+    host    : config.mysql.host,
+    user    : config.mysql.user,
+    database: config.mysql.database,
+    password: config.mysql.password });
   connection.connect();
 
   connection.query('SELECT * from tasks', function(err, rows, fields) {

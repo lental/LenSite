@@ -1,9 +1,10 @@
-
+var config = require('../config/config');
 var blogApi = require('node-mysql-blog-api');
 var blog = blogApi.api({
-host    : 'localhost',
-user    : 'root',
-database: 'lensite',
+host    : config.mysql.host,
+user    : config.mysql.user,
+database: config.mysql.database,
+password: config.mysql.password,
 table   : 'blog_posts_test'});
 
 

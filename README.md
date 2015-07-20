@@ -23,6 +23,10 @@ the following environment variables created
 export LENSITE_GPLUS_CLIENT_ID=
 export LENSITE_GPLUS_SECRET=
 export LENSITE_SESSION_SECRET_KEY=
+export LENSITE_DB_USER=
+export LENSITE_DB_PASSWORD=
+export LENSITE_DB_HOSTNAME="
+export LENSITE_DB_DATABASE_NAME=
 <pre>
 
 <pre>
