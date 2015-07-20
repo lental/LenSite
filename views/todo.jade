@@ -7,20 +7,7 @@ block headvars
     include ../views/fragments/todo.js
 
 block content
-  div#gConnect
-    .gButton
-      button.g-signin(
-        data-scope='https://www.googleapis.com/auth/plus.login',
-        data-requestvisibleactions='http://schemas.google.com/AddActivity',
-        data-clientId='206310899512.apps.googleusercontent.com',
-        data-callback='onSignInCallback',
-        data-redirecturi="postmessage",
-        data-theme='dark',
-        data-cookiepolicy='single_host_origin',
-        )
-    .authOps(style='display:none')
-      button.disconnect(onClick='onDisconnect()') Disconnect from G+
-      #profile
+  include fragments/gbutton.jade
   .content#todo-content
     .main-title
       h1 #{title}

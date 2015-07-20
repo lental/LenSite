@@ -1,5 +1,6 @@
 var config = require('../config/config');
 var mysql = require('mysql');
+var gplus = require('../util/gplus');
 
 var pool  = mysql.createPool({
     connectionLimit : 10,
@@ -21,151 +22,88 @@ exports.index = function(req, res) {
 };
 
 /**
- * Process someone completing a task
- */
-function processComplete(req, plus, oauth2Client, res) {
-
-    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
-    if (err) {
-      console.log("error user: " + err);
-      res.send('Invalid gplus people query', 500);
-    } else {
-
-      //Check to ensure user has permissions to finish tasks
-      var query = 'SELECT * from users where gplus_id=' + pool.escape(user.id) + ' AND can_remove=1;';
-      pool.query(query, function(err, db_users, fields) {
-        if (err) {
-          console.log("error user: " + err);
-          res.send('Invalid user query', 500);
-        } else {
-
-          //If a user is found, update the DB
-          if (db_users.length > 0) {
-            console.log("Found a whitelisted user!");
-            console.log(user.displayName + ", " + user.id);
-
-            var query = 'update tasks set is_done=1, done_at=current_timestamp() where id=' +
-                        pool.escape(req.body.taskId) + ';';
-            console.log(query);
-            pool.query(query, function(err, info, fields) {
-              if (err) {
-                console.log("error completion: " + err);
-                res.send('Invalid completion query', 500);
-              } else {
-                console.log(info.insertId);
-                console.log("submission complete!");
-                res.send({taskId : req.body.taskId}, 200);
-              }
-            });
-          } else {
-            console.log("User not whitelisted");
-            console.log(user.displayName + ", " + user.id);
-            res.send('User unauthorized to complete', 401);
-          }
-        }
-      });
-      
-    }
-  });
-
-
-}
-
-/**
- * Process someone adding a task
- */
-function processAdd(req, plus, oauth2Client, res) {
-plus.people.get({ userId: 'me', auth:oauth2Client},function (err, user) {
-    if (err) {
-      console.log("error user: " + err);
-      res.send('Invalid gplus people query', 500);
-    } else {
-      var query = 'SELECT * from users where gplus_id=' + pool.escape(user.id) + ' AND can_add=1;';
-      pool.query(query, function(err, db_users, fields) {
-        if (err) {
-          console.log("error user: " + err)
-          res.send('Invalid user query', 500);
-        } else {
-
-          //If a user is found, update the DB
-          if (db_users.length > 0) {
-            console.log("Found a whitelisted user!");
-            console.log(user.displayName + ", " + user.id);
-
-            var query = 'insert into tasks (ordering,description) SELECT 1 + coalesce((SELECT max(ordering)' +
-               ' FROM tasks),0), ' + pool.escape(req.body.description) + ';';
-            pool.query(query, function(err, info, fields) {
-              if (err) {
-                console.log('error insert: ' + err);
-                res.send('Invalid insertion query', 500);
-              } else {
-                console.log(info.insertId);
-                console.log("Submission complete!");
-                res.send({taskId : info.insertId, 
-                          description : req.body.description}, 200);
-              }
-            });
-          } else {
-            console.log("User not whitelisted");
-            console.log(user.displayName + ", " + user.id);
-            res.send('User unauthorized to add', 401);
-          }
-        }
-      });
-    }
-  });
-}
-
-//Retrieve token from session or use the provided auth code
-function findTokenAndProcess(req, res, callback) {
-  var redirectUri = "postmessage";
-  var google = require('googleapis'),
-      OAuth2 = google.auth.OAuth2;
-
-  //Get the G+ API
-  var plus = google.plus('v1');
-  // plus.execute(function(err, client) {
-
-      var oauth2Client =
-          new OAuth2(config.gplus.clientId, config.gplus.secret, redirectUri);
-
-      //If we have a g+ token in the session for this user
-      if (req.session.gPlusToken) {
-        console.log("USING ALREADY STORED TOKENS!! " + req.session.gPlusToken);
-        oauth2Client.credentials = req.session.gPlusToken;
-
-        callback(req, plus, oauth2Client, res)
-      }
-
-      //Otherwise, get use the provided token
-      else {
-        oauth2Client.getToken(req.body.code, function(err, tokens) {
-          if (err) {
-            console.log('token error' + err);
-            res.send('Invalid token', 500);
-          } else {
-            console.log("Generated new tokens");
-
-            oauth2Client.credentials = tokens;
-            req.session.gPlusToken = tokens;
-
-            callback(req, plus, oauth2Client, res)
-          }
-        });
-      }
-  // });
-}
-
-/**
  * POST todo/add
  */
 exports.add = function(req, res){
-  findTokenAndProcess(req,res,processAdd);
+  gplus.findTokenAndProcess(config,req,res,processAdd);
 }
 
 /**
  * POST todo/complete
  */
 exports.complete = function(req, res){
-  findTokenAndProcess(req,res,processComplete);
+  gplus.findTokenAndProcess(config,req,res,processComplete);
+}
+
+
+/**
+ * Process someone completing a task
+ */
+function processComplete(req, plus, oauth2Client, res) {
+
+    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+    if (err) {
+      console.log("error user: " + err);
+      res.send('Invalid gplus people query', 500);
+    } else {
+
+      gplus.getDatabaseUserWithPermission(pool, gp_user, "can_remove=1", function(err, db_user) {
+        if (err != null) {
+          res.send(err.message, err.code)
+        } else {
+          console.log("Found a whitelisted user!");
+          console.log(gp_user.displayName + ", " + gp_user.id);
+
+          var query = 'update tasks set is_done=1, done_at=current_timestamp() where id=' +
+                      pool.escape(req.body.taskId) + ';';
+          console.log(query);
+          pool.query(query, function(err, info, fields) {
+            if (err) {
+              console.log("error completion: " + err);
+              res.send('Invalid completion query', 500);
+            } else {
+              console.log(info.insertId);
+              console.log("submission complete!");
+              res.send({taskId : req.body.taskId}, 200);
+            }
+          });
+        }
+      });
+    };
+  });
+}
+
+/**
+ * Process someone adding a task
+ */
+function processAdd(req, plus, oauth2Client, res) {
+  plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+    if (err) {
+      console.log("error user: " + err);
+      res.send('Invalid gplus people query', 500);
+    } else {
+      gplus.getDatabaseUserWithPermission(pool, gp_user, "can_add=1", function(err, db_user) {
+        if (err != null) {
+          res.send(err.message, err.code)
+        } else {
+          console.log("Found a whitelisted user!");
+          console.log(gp_user.displayName + ", " + gp_user.id);
+
+          var query = 'insert into tasks (ordering,description) SELECT 1 + coalesce((SELECT max(ordering)' +
+             ' FROM tasks),0), ' + pool.escape(req.body.description) + ';';
+          pool.query(query, function(err, info, fields) {
+            if (err) {
+              console.log('error insert: ' + err);
+              res.send('Invalid insertion query', 500);
+            } else {
+              console.log(info.insertId);
+              console.log("Submission complete!");
+              res.send({taskId : info.insertId, 
+                        description : req.body.description}, 200);
+            }
+          });
+        }
+      });
+    }
+  });
 }

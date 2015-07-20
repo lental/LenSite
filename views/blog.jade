@@ -2,8 +2,11 @@ extends layout
 
 block headvars
   - var title = "Blog"
+  script
+    include ../views/fragments/gplus.js
 
 block content
+  include fragments/gbutton.jade
   .content#blog-content
     div.main-title
       h1 #{title}
