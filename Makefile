@@ -1,4 +1,4 @@
-all: style
+all: install style
 
 style:
 	rm -f stylus/compiled/*
