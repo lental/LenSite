@@ -1,0 +1,22 @@
+extends layout
+
+block headvars
+  - var title = "Blog - Edit"
+  script
+    include fragments/gplus.js
+    include fragments/blog-edit.js
+
+block content
+  include fragments/gbutton.jade
+  .content#blog-content
+    div.main-title
+      h1 #{title}
+    p This will be the #{title}
+
+    form#task-form()
+      input(type='text', name='Title', placeholder='Title')
+      textarea(name='Body', placeholder='Description')
+      input#code(type='hidden', name='code')
+      input#submit(type='submit')
+      span#error
+      span#result

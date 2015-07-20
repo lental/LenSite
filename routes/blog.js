@@ -17,3 +17,9 @@ exports.index = function(req, res){
   });
 };
 
+/**
+ * POST blog/createPost
+ */
+exports.createPost = function(req, res){
+    res.render('blog-edit');
+}
