@@ -10,7 +10,7 @@ exports.index = function(req, res){
 
 
 /*
- * GET home page.
+ * GET resume page.
  */
 
 exports.resume = function(req, res){
@@ -19,7 +19,7 @@ exports.resume = function(req, res){
 };
 
 /*
- * GET home page.
+ * GET portfolio page.
  */
 
 exports.portfolio = function(req, res){
@@ -28,12 +28,15 @@ exports.portfolio = function(req, res){
 };
 
 /*
- * GET home page.
+ * GET ping page.
  */
+exports.ping = function(req, res) {
+  res.send('pong', 200);
+ };
 
 
 /*
- * GET home page.
+ * GET contact page.
  */
 
 exports.contact = function(req, res){

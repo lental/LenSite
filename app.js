@@ -17,8 +17,15 @@ var express = require('express')
 var app = express();
 
 setInterval(function() {
-  console.log("pinging self");  
-  http.get("http://lensite.herokuapp.com");
+  var host;
+  if (process.env.PORT) {
+    host = "http://lensite.herokuapp.com";
+  }
+  else {
+    host = "http://localhost:3000";
+  }
+  console.log("pinging host " + host);  
+  http.get(host + "/ping");
 }, 300000);
 
 // all environments
@@ -46,6 +53,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/resume', routes.resume);
+app.get('/ping', routes.ping);
 app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
 
