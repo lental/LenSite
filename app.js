@@ -16,6 +16,11 @@ var express = require('express')
 
 var app = express();
 
+setInterval(function() {
+  console.log("pinging self");  
+  http.get("http://lensite.herokuapp.com");
+}, 300000);
+
 // all environments
 app.locals.basedir = "/Users/len/repos/LenSite/"
 app.set('port', process.env.PORT || 3000);
