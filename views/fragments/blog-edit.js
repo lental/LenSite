@@ -1,33 +1,51 @@
+function showLoggedInFields() {
+  $('#blog-form #submit').removeAttr('disabled');
+  $('#blog-form #title-text').removeAttr('disabled');
+  $('#blog-form #body-text').removeAttr('disabled');
+}
+
+function hideLoggedInFields() {
+  $('#blog-form #submit').attr('disabled', 'disabled');
+  $('#blog-form #title-text').attr('disabled', 'disabled');
+  $('#blog-form #body-text').attr('disabled', 'disabled');
+}
+
+function disableWhileProcessing() {
+  $('#blog-form #submit').val('Submitting...');
+  $('#blog-form #submit').attr('disabled', 'disabled');
+  $('#blog-form #title-text').attr('disabled', 'disabled');
+  $('#blog-form #body-text').attr('disabled', 'disabled');
+}
+
+function reenableAfterProcessing() {
+  $('#blog-form #submit').val('Submit');
+  $('#blog-form #submit').removeAttr('disabled');
+  $('#blog-form #title-text').removeAttr('disabled');
+  $('#blog-form #body-text').removeAttr('disabled');
+}
+
 function onSignInCallback(authResult) {
   helper.onSignInCallback(authResult,
     function(authResult) {
-      $('.authOps').show('slow');
-      $('.gButton').hide();
-      helper.profile();
-      helper.people();
       $('#blog-form #code').val(authResult['code']);
-      $('#blog-form #submit').removeAttr('disabled');
-      $('#blog-form #title-text').removeAttr('disabled');
-      $('#blog-form #body-text').removeAttr('disabled');
-
-      $('.disconnect').text('Disconnect from G+');
-      $('.disconnect').removeAttr('disabled');
+      showLoggedInFields();
     },
     function(authResult) {
-      $('.authOps').hide('slow');
-      $('.gButton').show();
-      $('#blog-form #submit').attr('disabled', 'disabled');
-      $('#blog-form #title-text').attr('disabled', 'disabled');
-      $('#blog-form #body-text').attr('disabled', 'disabled');
       $('#blog-form #code').val('');
+      hideLoggedInFields();
     });
 };
 
 function onDisconnect() {
-  $('.disconnect').text('disconnecting');
-  $('.disconnect').attr('disabled', 'disabled');
-  helper.disconnect();
-};
+  helper.disconnect(
+    function() {
+      console.log("disconnect pressed, success")
+      hideLoggedInFields();
+    },
+    function() {
+      console.log("disconnect pressed, but failed");
+    });
+}
 
 $(document).ready( function() {
   $('#blog-form').submit(function() {
@@ -44,17 +62,12 @@ $(document).ready( function() {
                $('#blog-form #error').text("Error: " + errorThrown);
                $('#blog-form #result').text("");
              },
-             complete: function(jqXHR, textStatus) { 
-               $('#blog-form #submit').val('Submit');
-               $('#blog-form #submit').removeAttr('disabled');
-               $('#blog-form #title-text').removeAttr('disabled');
-               $('#blog-form #body-text').removeAttr('disabled');
+             complete: function(jqXHR, textStatus) {
+                reenableAfterProcessing();
              }
            });
-    $('#blog-form #submit').val('Submitting...');
-    $('#blog-form #submit').attr('disabled', 'disabled');
-    $('#blog-form #title-text').attr('disabled', 'disabled');
-    $('#blog-form #body-text').attr('disabled', 'disabled');
+    disableWhileProcessing();
     return false;
   });
+  hideLoggedInFields();
 });

@@ -1,35 +1,50 @@
+
+function showLoggedInFields() {
+  $('#task-form #text').show('slow');
+  $('#task-form #submit').show('slow');
+  $('.doneify').show('slow');
+}
+
+function hideLoggedInFields() {
+  $('#task-form #text').hide();
+  $('#task-form #submit').hide();
+  $('.doneify').hide();
+}
+
+function disableWhileProcessing() {
+  $('#task-form #submit').val('Submitting...');
+  $('#task-form #submit').attr('disabled', 'disabled');
+  $('#task-form #text').attr('disabled', 'disabled');
+}
+
+function reenableAfterProcessing() {
+  $('#task-form #submit').val('Submit');
+  $('#task-form #submit').removeAttr('disabled');
+  $('#task-form #text').removeAttr('disabled');
+}
+
 function onSignInCallback(authResult) {
   helper.onSignInCallback(authResult,
     function(authResult) {
-      $('.authOps').show('slow');
-      $('.gButton').hide();
-      helper.profile();
-      helper.people();
       $('#task-form #code').val(authResult['code']);
-      $('#task-form #text').show('slow');
-      $('#task-form #submit').show('slow');
-      $('.doneify').show('slow');
+      showLoggedInFields();
 
-      $('.disconnect').text('Disconnect from G+');
-      $('.disconnect').removeAttr('disabled');
     },
     function(authResult) {
-      $('.authOps').hide('slow');
-      $('.gButton').show();
-      $('#task-form #code').val(authResult['code']);
-      $('#task-form #text').hide();
-      $('#task-form #submit').hide();
       $('#task-form #code').val('');
-      $('#task-form #text').hide();
-      $('#task-form #submit').hide();
-      $('.doneify').hide();
+      hideLoggedInFields();
     });
 }
 
 function onDisconnect() {
-  $('.disconnect').text('disconnecting');
-  $('.disconnect').attr('disabled', 'disabled');
-  helper.disconnect();
+  helper.disconnect(
+    function() {
+      $('#task-form #code').val('');
+      hideLoggedInFields();
+    },
+    function() {
+      console.log("disconnect pressed, but failed");
+    });
 }
 
 function doneifyClick(){
@@ -76,15 +91,11 @@ $(document).ready( function() {
                $('#task-form #error').text("Error: " + errorThrown);
                $('#task-form #result').text("");
              },
-             complete: function(jqXHR, textStatus) { 
-               $('#task-form #submit').val('Submit');
-               $('#task-form #submit').removeAttr('disabled');
-               $('#task-form #text').removeAttr('disabled');
+             complete: function(jqXHR, textStatus) {
+               reenableAfterProcessing();
              }
            });
-    $('#task-form #submit').val('Submitting...');
-    $('#task-form #submit').attr('disabled', 'disabled');
-    $('#task-form #text').attr('disabled', 'disabled');
+    disableWhileProcessing();
     return false;
   });
 

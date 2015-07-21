@@ -11,11 +11,15 @@ block content
   .content#blog-content
     div.main-title
       h1 #{title}
-    p This will be the #{title}
-    a#contact(href='blog/createPost') Create New Post
+    div.create-post.requires-login
+      a(href='blog/createPost') Create New Post
 
     - for (var i in posts)
       .post
         h2 #{posts[i].title}
         h3 #{posts[i].created_at}
         p #{posts[i].body}
+    .footer
+      p This blog is built on my homegrown 
+        a(href='https://github.com/lental/node-mysql-blog-api') node-mysql-blog-api. 
+        | Take a look at it over there

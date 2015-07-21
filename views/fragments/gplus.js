@@ -21,13 +21,25 @@ var helper = (function() {
 
         if (authResult['access_token']) {
           console.log('Auth Success', authResult);
+          $('.authOps').show('slow');
+          $('.gButton').hide('slow');
+
+          helper.profile();
+          helper.people();
+
+          $('.disconnect').text('Disconnect from G+');
+          $('.disconnect').removeAttr('disabled');
+
           onAuthSuccess(authResult);
 
         } else if (authResult['error']) {
           // There was an error, which means the user is not signed in.
           console.log('There was an auth error: ' + authResult['error']);
+          $('.authOps').hide('slow');
+          $('.gButton').show('slow');
+
           onAuthError(authResult)
-          
+
         } else {
           console.log('No token but no error. authResult', authResult);
         }
@@ -37,8 +49,10 @@ var helper = (function() {
     /**
      * Calls the OAuth2 endpoint to disconnect the app for the user.
      */
-    disconnect: function() {
+    disconnect: function(onDisconnectSuccess, onDisconnectError) {
       // Revoke the access token.
+      $('.disconnect').text('disconnecting');
+      $('.disconnect').attr('disabled', 'disabled');
       $.ajax({
         type: 'GET',
         url: 'https://accounts.google.com/o/oauth2/revoke?token=' +
@@ -53,13 +67,11 @@ var helper = (function() {
           $('#visiblePeople').empty();
           $('#authResult').empty();
           $('.gButton').show();
-          $('#task-form #code').val('');
-          $('#task-form #text').hide('slow');
-          $('#task-form #submit').hide('slow');
-          $('.doneify').hide('slow');
+          onDisconnectSuccess();
         },
         error: function(e) {
           console.log(e);
+          onDisconnectError();
         }
       });
     },

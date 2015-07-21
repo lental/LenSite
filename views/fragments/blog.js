@@ -1,21 +1,23 @@
 function onSignInCallback(authResult) {
   helper.onSignInCallback(authResult,
     function(authResult) {
-      $('.authOps').show('slow');
-      $('.gButton').hide();
-      helper.profile();
-      helper.people();
-      $('.disconnect').text('Disconnect from G+');
-      $('.disconnect').removeAttr('disabled');
+      $('.create-post').show('slow')
     },
     function(authResult) {
-      $('.authOps').hide('slow');
-      $('.gButton').show();
+      $('.create-post').hide('slow');
     });
 }
 
 function onDisconnect() {
-  $('.disconnect').text('disconnecting');
-  $('.disconnect').attr('disabled', 'disabled');
-  helper.disconnect();
+  helper.disconnect(
+    function() {
+      console.log("disconnect pressed, success")
+    },
+    function() {
+      console.log("disconnect pressed, but failed");
+    });
 }
+
+$(document).ready( function() {
+  $('.create-post').hide('slow');
+});
