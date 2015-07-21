@@ -51,15 +51,15 @@ mysql> show create table tasks\G
        Table: tasks
 Create Table: CREATE TABLE `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `is_done` tinyint(1) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `done_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL,
   `ordering` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL,
+  `is_done` tinyint(1) DEFAULT NULL,
+  `done_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_hidden` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8
-1 row in set (0.00 sec)
-</pre>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)</pre>
 
 <pre>
 mysql> show create table blog_posts_test\G
