@@ -13,9 +13,9 @@ block content
       h1 #{title}
     p This will be the #{title}
 
-    form#task-form()
-      input(type='text', name='Title', placeholder='Title')
-      textarea(name='Body', placeholder='Description')
+    form#blog-form()
+      input#title-text(type='text', name='title', placeholder='Title')
+      textarea#body-text(name='body', placeholder='Body')
       input#code(type='hidden', name='code')
       input#submit(type='submit')
       span#error

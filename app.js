@@ -48,8 +48,11 @@ app.get('/', routes.index);
 app.get('/resume', routes.resume);
 app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
+
 app.get('/blog', blog.index);
+app.post('/blog/add', blog.add);
 app.get('/blog/createPost', blog.createPost);
+
 app.get('/users', user.list);
 
 app.get('/todo', todo.index);

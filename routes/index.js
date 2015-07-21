@@ -31,10 +31,6 @@ exports.portfolio = function(req, res){
  * GET home page.
  */
 
-exports.blog = function(req, res){
-  res.set('Cache-Control', 'max-age=4320000');
-  res.render('blog');
-};
 
 /*
  * GET home page.

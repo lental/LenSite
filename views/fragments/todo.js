@@ -1,5 +1,29 @@
 function onSignInCallback(authResult) {
-  helper.onSignInCallback(authResult);
+  helper.onSignInCallback(authResult,
+    function(authResult) {
+      $('.authOps').show('slow');
+      $('.gButton').hide();
+      helper.profile();
+      helper.people();
+      $('#task-form #code').val(authResult['code']);
+      $('#task-form #text').show('slow');
+      $('#task-form #submit').show('slow');
+      $('.doneify').show('slow');
+
+      $('.disconnect').text('Disconnect from G+');
+      $('.disconnect').removeAttr('disabled');
+    },
+    function(authResult) {
+      $('.authOps').hide('slow');
+      $('.gButton').show();
+      $('#task-form #code').val(authResult['code']);
+      $('#task-form #text').hide();
+      $('#task-form #submit').hide();
+      $('#task-form #code').val('');
+      $('#task-form #text').hide();
+      $('#task-form #submit').hide();
+      $('.doneify').hide();
+    });
 }
 
 function onDisconnect() {

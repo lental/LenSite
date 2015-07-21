@@ -77,33 +77,38 @@ function processComplete(req, plus, oauth2Client, res) {
  * Process someone adding a task
  */
 function processAdd(req, plus, oauth2Client, res) {
-  plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
-    if (err) {
-      console.log("error user: " + err);
-      res.send('Invalid gplus people query', 500);
-    } else {
-      gplus.getDatabaseUserWithPermission(pool, gp_user, "can_add=1", function(err, db_user) {
-        if (err != null) {
-          res.send(err.message, err.code)
-        } else {
-          console.log("Found a whitelisted user!");
-          console.log(gp_user.displayName + ", " + gp_user.id);
+  if (req.body.description.length <= 0) {
+    console.log('Empty string for a description.');
+    res.send('Need a description', 400);
+  } else {
+    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+      if (err) {
+        console.log("error user: " + err);
+        res.send('Invalid gplus people query', 500);
+      } else {
+        gplus.getDatabaseUserWithPermission(pool, gp_user, "can_add=1", function(err, db_user) {
+          if (err != null) {
+            res.send(err.message, err.code)
+          } else {
+            console.log("Found a whitelisted user!");
+            console.log(gp_user.displayName + ", " + gp_user.id);
 
-          var query = 'insert into tasks (ordering,description) SELECT 1 + coalesce((SELECT max(ordering)' +
-             ' FROM tasks),0), ' + pool.escape(req.body.description) + ';';
-          pool.query(query, function(err, info, fields) {
-            if (err) {
-              console.log('error insert: ' + err);
-              res.send('Invalid insertion query', 500);
-            } else {
-              console.log(info.insertId);
-              console.log("Submission complete!");
-              res.send({taskId : info.insertId, 
-                        description : req.body.description}, 200);
-            }
-          });
-        }
-      });
-    }
-  });
+            var query = 'insert into tasks (ordering,description) SELECT 1 + coalesce((SELECT max(ordering)' +
+               ' FROM tasks),0), ' + pool.escape(req.body.description) + ';';
+            pool.query(query, function(err, info, fields) {
+              if (err) {
+                console.log('error insert: ' + err);
+                res.send('Invalid insertion query', 500);
+              } else {
+                console.log(info.insertId);
+                console.log("Submission complete!");
+                res.send({taskId : info.insertId, 
+                          description : req.body.description}, 200);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 }

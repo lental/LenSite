@@ -16,42 +16,21 @@ var helper = (function() {
      * @param {Object} authResult An Object which contains the access token and
      *   other authentication information.
      */
-    onSignInCallback: function(authResult) {
+    onSignInCallback: function(authResult, onAuthSuccess, onAuthError) {
       gapi.client.load('plus','v1', function(){
-        $('#authResult').html('Auth Result:<br/>');
-        for (var field in authResult) {
-          $('#authResult').append(' ' + field + ': ' +
-              authResult[field] + '<br/>');
-        }
-        if (authResult['access_token']) {
-          $('.authOps').show('slow');
-          $('.gButton').hide();
-          helper.profile();
-          helper.people();
-          $('#task-form #code').val(authResult['code']);
-          $('#task-form #text').show('slow');
-          $('#task-form #submit').show('slow');
-          $('.doneify').show('slow');
 
-          $('.disconnect').text('Disconnect from G+');
-          $('.disconnect').removeAttr('disabled');
+        if (authResult['access_token']) {
+          console.log('Auth Success', authResult);
+          onAuthSuccess(authResult);
 
         } else if (authResult['error']) {
           // There was an error, which means the user is not signed in.
-          // As an example, you can handle by writing to the console:
-          console.log('There was an error: ' + authResult['error']);
-          $('#authResult').append('Logged out');
-          $('.authOps').hide('slow');
-          $('.gButton').show();
-          $('#task-form #code').val(authResult['code']);
-          $('#task-form #text').hide();
-          $('#task-form #submit').hide();
-          $('#task-form #code').val('');
-          $('#task-form #text').hide();
-          $('#task-form #submit').hide();
-          $('.doneify').hide();
+          console.log('There was an auth error: ' + authResult['error']);
+          onAuthError(authResult)
+          
+        } else {
+          console.log('No token but no error. authResult', authResult);
         }
-        console.log('authResult', authResult);
       });
     },
 
