@@ -35,15 +35,12 @@ exports.remove = function(req, res){
   gplus.findTokenAndProcess(config,req,res,processRemove);
 }
 
-
-
 /**
  * POST todo/complete
  */
 exports.complete = function(req, res){
   gplus.findTokenAndProcess(config,req,res,processComplete);
 }
-
 
 /**
  * Process someone completing a task
