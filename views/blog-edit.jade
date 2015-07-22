@@ -15,6 +15,9 @@ block content
 
     form#blog-form()
       if post
+        div.back
+          p • 
+            a(href='/#{post.id}') Go back to viewing the blog post
         input#title-text(type='text', name='title', placeholder='Title' value="#{post.title}")
         textarea#body-text(name='body', placeholder='Body') #{post.body}
         input#id(type='hidden', name='id' value="#{post.id}")
@@ -30,9 +33,6 @@ block content
       span#result
 
     .footer
-      div.back
-        p • 
-          a(href='/#{post.id}') Go back to viewing the blog post
       p • This blog is built on my homegrown 
         a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
         | . Check it out on 
