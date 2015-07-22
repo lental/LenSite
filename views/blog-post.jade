@@ -1,0 +1,25 @@
+extends layout
+
+block headvars
+  - var title = "Blog"
+  script
+//-  include fragments/gplus.js
+    include fragments/blog.js
+
+//-  include fragments/gbutton.jade
+block content
+  .content#blog-content
+    div.main-title
+      h1 #{post.title}
+    .post
+      h3 #{post.created_at}
+      p #{post.body}
+    .footer
+      div.back
+        p • 
+          a(href='/blog') Go back to blog
+      p • This blog is built on my homegrown 
+        a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
+        | . Check it out on 
+        a(href='https://github.com/lental/node-mysql-blog-api') Github
+        | .

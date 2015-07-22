@@ -4,11 +4,11 @@ var blogApi = require('node-mysql-blog-api');
 var mysql = require('mysql');
 
 var blog = blogApi.api({
-host    : config.mysql.host,
-user    : config.mysql.user,
-database: config.mysql.database,
-password: config.mysql.password,
-table   : 'blog_posts_test'});
+    host    : config.mysql.host,
+    user    : config.mysql.user,
+    database: config.mysql.database,
+    password: config.mysql.password,
+    table   : 'blog_posts_test'});
 
 var pool  = mysql.createPool({
     connectionLimit : 10,
@@ -18,6 +18,9 @@ var pool  = mysql.createPool({
     password: config.mysql.password });
 
 
+/**
+ * GET blog
+ */
 exports.index = function(req, res){
   res.set('Cache-Control', 'max-age=60');
     console.log("starting");
@@ -28,10 +31,33 @@ exports.index = function(req, res){
 };
 
 /**
- * POST blog/createPost
+ * POST blog/newPost
  */
-exports.createPost = function(req, res){
+exports.newPost = function(req, res){
     res.render('blog-edit');
+};
+
+/**
+ * GET blog/:id(//d*)
+ */
+exports.getPost = function(req, res){
+  blog.posts({initial:req.params.id}, function(err, posts) {
+    if (err) {
+      console.log("error blog query: " + err);
+      res.send('Invalid blog query', 500);
+    } else if (posts.length > 1) {
+      console.log("Too many blogs with the same id: " + pool.escape(req.params.id));
+      res.send('Invalid blog query', 500);
+    res.send('Need a title', 400);
+    } else if (posts.length == 0) {
+      console.log("No blog found with that ID: " + pool.escape(req.params.id));
+      res.send('Not found', 404);
+    } else {
+      console.log("Getting post #" + pool.escape(req.params.id) + ": " + posts[0].title + ", " + posts[0].body);
+
+      res.render('blog-post', { 'post': posts[0] });
+    }
+  })
 };
 
 /**
@@ -56,7 +82,6 @@ function processAdd(req, plus, oauth2Client, res) {
       if (err != null) {
         res.send(err.message, err.code)
       } else {
-        console.log("Found a  user!");
         console.log("Whitelisted:" + gp_user.displayName + ", " + gp_user.id);
 
         blog.add(req.body.title, req.body.body,
