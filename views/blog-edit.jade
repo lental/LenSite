@@ -16,8 +16,7 @@ block content
     form#blog-form()
       if post
         input#title-text(type='text', name='title', placeholder='Title' value="#{post.title}")
-        textarea#body-text(name='body', placeholder='Body') 
-          | #{post.body}  
+        textarea#body-text(name='body', placeholder='Body') #{post.body}
         input#id(type='hidden', name='id' value="#{post.id}")
       else
         input#title-text(type='text', name='title', placeholder='Title')
@@ -29,3 +28,13 @@ block content
       input#submit(type='submit')
       span#error
       span#result
+
+    .footer
+      div.back
+        p • 
+          a(href='/#{post.id}') Go back to viewing the blog post
+      p • This blog is built on my homegrown 
+        a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
+        | . Check it out on 
+        a(href='https://github.com/lental/node-mysql-blog-api') Github
+        | .

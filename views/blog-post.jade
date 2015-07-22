@@ -3,11 +3,11 @@ extends layout
 block headvars
   - var title = "Blog"
   script
-//-  include fragments/gplus.js
-    include fragments/blog.js
+    include fragments/gplus.js
+    include fragments/blog-post.js
 
-//-  include fragments/gbutton.jade
 block content
+  include fragments/gbutton.jade
   .content#blog-content
     div.main-title
       h1 #{post.title}
@@ -18,6 +18,9 @@ block content
       div.back
         p • 
           a(href='/blog') Go back to blog
+      div.edit-post
+        p • 
+          a(href='#{post.id}/edit') edit this post
       p • This blog is built on my homegrown 
         a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
         | . Check it out on 
