@@ -39,22 +39,29 @@ exports.findTokenAndProcess = function(config, req, res, callback) {
   // });
 }
 
-exports.getDatabaseUserWithPermission = function(pool, user, criteria, callback) {
-      //Check to ensure user has permissions to finish tasks
-    var query = 'SELECT * from users where gplus_id=' + pool.escape(user.id) + ' AND ' + criteria + ';';
-    pool.query(query, function(err, db_users, fields) {
+exports.getDatabaseUserWithPermission = function(pool, plus, oauth2Client, criteria, callback) {
+  plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+    if (err) {
+      console.log("error gplus people get: " + err);
+      callback({message: 'Invalid user query', code: 500}, null, null);
+    } else {
+        //Check to ensure user has permissions to finish tasks
+      var query = 'SELECT * from users where gplus_id=' + pool.escape(gp_user.id) + ' AND ' + criteria + ';';
+      pool.query(query, function(err, db_users, fields) {
         if (err) {
             console.log("error user: " + err);
-            res.send({message: 'Invalid user query', code: 500}, null);
+            callback({message: 'Invalid user query', code: 500}, null, null);
         } else if (db_users.length > 1) {
-            console.log("Too many users with the same gplus_id: " + pool.escape(user.id));
-            callback({message: 'Invalid user query', code: 500}, null);
+            console.log("Too many users with the same gplus_id: " + pool.escape(gp_user.id));
+            callback({message: 'Invalid user query', code: 500}, null, null);
         } else if (db_users.length = 0) {
             console.log("No users fit criteria: " + criteria);
-            callback({message: 'Unauthorized', code: 401}, null);
+            callback({message: 'Unauthorized', code: 401}, null, null);
         } else {
             console.log("Found user:" + db_users[0]);
-            callback(null, db_users[0]);
+            callback(null, gp_user, db_users[0]);
         }
-    })
+      })
+    }
+  });
 };

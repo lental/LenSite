@@ -41,12 +41,10 @@ exports.add = function(req, res){
   gplus.findTokenAndProcess(config,req,res,processAdd);
 };
 
-
 /**
- * Process someone adding a task
+ * Process someone adding a blog
  */
 function processAdd(req, plus, oauth2Client, res) {
-
   if (req.body.title.length <= 0) {
     console.log('Empty string for title.');
     res.send('Need a title', 400);
@@ -54,30 +52,23 @@ function processAdd(req, plus, oauth2Client, res) {
     console.log('Empty string for body.');
     res.send('Need a body', 400);
   } else {
-    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
-      if (err) {
-        console.log("error user: " + err);
-        res.send('Invalid gplus people query', 500);
+    gplus.getDatabaseUserWithPermission(pool, plus, oauth2Client, "can_add=1", function(err, gp_user, db_user) {
+      if (err != null) {
+        res.send(err.message, err.code)
       } else {
-        gplus.getDatabaseUserWithPermission(pool, gp_user, "can_add=1", function(err, db_user) {
-          if (err != null) {
-            res.send(err.message, err.code)
+        console.log("Found a  user!");
+        console.log("Whitelisted:" + gp_user.displayName + ", " + gp_user.id);
+
+        blog.add(req.body.title, req.body.body,
+         function(err, info) {
+          if (err) {
+            console.log('error insert: ' + err);
+            res.send('Invalid insertion query', 500);
           } else {
-            console.log("Found a whitelisted user!");
-            console.log(gp_user.displayName + ", " + gp_user.id);
-            var query = 'insert into blog_posts_test (title, body) values (' + pool.escape(req.body.title) + ',' + pool.escape(req.body.body) + ');';
-            console.log("Querying: " + query);
-            pool.query(query, function(err, info, fields) {
-              if (err) {
-                console.log('error insert: ' + err);
-                res.send('Invalid insertion query', 500);
-              } else {
-                console.log(info.insertId);
-                console.log("Submission complete!");
-                res.send({taskId : info.insertId, 
-                          description : req.body.description}, 200);
-              }
-            });
+            console.log(info.insertId);
+            console.log("Submission complete!");
+            res.send({taskId : info.insertId, 
+                      description : req.body.description}, 200);
           }
         });
       }
