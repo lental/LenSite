@@ -49,10 +49,17 @@ function onDisconnect() {
 
 $(document).ready( function() {
   $('#blog-form').submit(function() {
+    var id = $('#blog-form #id').val();
+    var url;
+    if (id === "") {
+      url = "/blog/add"
+    } else {
+      url = "/blog/" + id + "/edit"
+    }
 
     $.ajax({
              type: 'POST',
-             url: '/blog/add',
+             url: url,
              data: $('#blog-form').serialize(), // serializes the form's elements.
              success: function(data) {
                console.log(data);

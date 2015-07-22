@@ -1,5 +1,6 @@
 var config = require('../config/config');
 var gplus = require('../util/gplus');
+var blogUtils = require('../util/blog');
 var blogApi = require('node-mysql-blog-api');
 var mysql = require('mysql');
 
@@ -37,27 +38,45 @@ exports.newPost = function(req, res){
     res.render('blog-edit');
 };
 
+
+/**
+ * GET blog/:id(//d*)/edit
+ */
+exports.showEditPost = function(req, res){
+  blogUtils.getSinglePost(blog, req.params.id, function(err, post) {
+    if (err != null) {
+      res.send(err.message, err.code)
+    } else {
+      res.render('blog-edit', { 'post': post });
+    }
+  });
+};
+
+/**
+ * POST blog/:id(//d*)/edit
+ */
+exports.edit = function(req, res){
+  if(req.params.id != req.body.id) {
+    console.log("ID in the path is not the same as the body:" + req.params.id + ", " + req.body.id);
+    res.send("Invalid request", 500)
+  }
+  else {
+    gplus.findTokenAndProcess(config,req,res,processEdit);
+  }
+};
+
+
 /**
  * GET blog/:id(//d*)
  */
 exports.getPost = function(req, res){
-  blog.posts({initial:req.params.id}, function(err, posts) {
-    if (err) {
-      console.log("error blog query: " + err);
-      res.send('Invalid blog query', 500);
-    } else if (posts.length > 1) {
-      console.log("Too many blogs with the same id: " + pool.escape(req.params.id));
-      res.send('Invalid blog query', 500);
-    res.send('Need a title', 400);
-    } else if (posts.length == 0) {
-      console.log("No blog found with that ID: " + pool.escape(req.params.id));
-      res.send('Not found', 404);
+  blogUtils.getSinglePost(blog, req.params.id, function(err, post) {
+    if (err != null) {
+      res.send(err.message, err.code)
     } else {
-      console.log("Getting post #" + pool.escape(req.params.id) + ": " + posts[0].title + ", " + posts[0].body);
-
-      res.render('blog-post', { 'post': posts[0] });
+      res.render('blog-post', { 'post': post });
     }
-  })
+  });
 };
 
 /**
@@ -92,6 +111,41 @@ function processAdd(req, plus, oauth2Client, res) {
           } else {
             console.log(info.insertId);
             console.log("Submission complete!");
+            res.send({taskId : info.insertId, 
+                      description : req.body.description}, 200);
+          }
+        });
+      }
+    });
+  }
+};
+
+
+/**
+ * Process someone editing a blog post
+ */
+function processEdit(req, plus, oauth2Client, res) {
+  if (req.body.title.length <= 0) {
+    console.log('Empty string for title.');
+    res.send('Need a title', 400);
+  } else if  (req.body.body.length <= 0) {
+    console.log('Empty string for body.');
+    res.send('Need a body', 400);
+  } else {
+    gplus.getDatabaseUserWithPermission(pool, plus, oauth2Client, "can_add=1", function(err, gp_user, db_user) {
+      if (err != null) {
+        res.send(err.message, err.code)
+      } else {
+        console.log("Whitelisted:" + gp_user.displayName + ", " + gp_user.id);
+
+        blog.edit(req.params.id, req.body.title, req.body.body,
+         function(err, info) {
+          if (err) {
+            console.log('error insert: ' + err);
+            res.send('Invalid insertion query', 500);
+          } else {
+            console.log(info.insertId);
+            console.log("Modification complete!");
             res.send({taskId : info.insertId, 
                       description : req.body.description}, 200);
           }
