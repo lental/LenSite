@@ -13,7 +13,7 @@ var pool  = mysql.createPool({
  * GET home page.
  */
 exports.index = function(req, res) {
-  pool.query('SELECT * from tasks', function(err, rows, fields) {
+  pool.query('SELECT * from tasks where is_hidden = 0', function(err, rows, fields) {
     if (err) {
       console.log("tasks select user error: " + err);
     }
@@ -29,12 +29,58 @@ exports.add = function(req, res){
 }
 
 /**
+ * POST todo/remove
+ */
+exports.remove = function(req, res){
+  gplus.findTokenAndProcess(config,req,res,processRemove);
+}
+
+
+
+/**
  * POST todo/complete
  */
 exports.complete = function(req, res){
   gplus.findTokenAndProcess(config,req,res,processComplete);
 }
 
+
+/**
+ * Process someone completing a task
+ */
+function processRemove(req, plus, oauth2Client, res) {
+
+    plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+    if (err) {
+      console.log("error user: " + err);
+      res.send('Invalid gplus people query', 500);
+    } else {
+
+      gplus.getDatabaseUserWithPermission(pool, gp_user, "can_remove=1", function(err, db_user) {
+        if (err != null) {
+          res.send(err.message, err.code)
+        } else {
+          console.log("Found a whitelisted user!");
+          console.log(gp_user.displayName + ", " + gp_user.id);
+
+          var query = 'update tasks set is_hidden=1 where id=' +
+                      pool.escape(req.body.taskId) + ';';
+          console.log(query);
+          pool.query(query, function(err, info, fields) {
+            if (err) {
+              console.log("error remove: " + err);
+              res.send('Invalid remove query', 500);
+            } else {
+              console.log(info.insertId);
+              console.log("removal complete!");
+              res.send({taskId : req.body.taskId}, 200);
+            }
+          });
+        }
+      });
+    };
+  });
+}
 
 /**
  * Process someone completing a task

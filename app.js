@@ -66,6 +66,7 @@ app.get('/users', user.list);
 app.get('/todo', todo.index);
 app.post('/todo/add', todo.add);
 app.post('/todo/complete', todo.complete);
+app.post('/todo/remove', todo.remove);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

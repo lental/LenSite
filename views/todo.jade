@@ -15,7 +15,7 @@ block content
     .todo
       table.task-list
         - for (var i in tasks)
-          tr
+          tr.task-row(data-taskId='#{tasks[i].id}')
             td.button-cell
               if tasks[i].is_done > 0
                 span.done-text Done!
@@ -23,6 +23,9 @@ block content
                 button.doneify(data-taskId='#{tasks[i].id}') done-ify
             td.task-cell
               p #{tasks[i].description}
+            td.remove-cell
+              if tasks[i].is_done == 1
+                button.remove(data-taskId='#{tasks[i].id}') remove
         tr.submit-row
           td
           td
