@@ -53,9 +53,9 @@ Create Table: CREATE TABLE `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `ordering` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_done` tinyint(1) NOT NULL DEFAULT 0,
-  `done_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `done_at` timestamp NOT NULL DEFAULT 0,
   `is_hidden` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
