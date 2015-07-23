@@ -24,10 +24,35 @@ var pool  = mysql.createPool({
  */
 exports.index = function(req, res){
   res.set('Cache-Control', 'max-age=60');
-    console.log("starting");
   blog.posts({count:3}, function(err, posts) {
     console.log(JSON.stringify(posts));
     res.render('blog', { 'posts': posts });
+  });
+};
+
+/**
+ * GET blog/posts?
+
+ * config.count  : number of posts desired, default 1
+ * config.offset : number of posts away from current, default 0
+ * config.direction : direction of offset "older", "newer", or "exact", default exact
+ * config.initial : initial ID of post, default to newest post
+ *
+ */
+exports.posts = function(req, res){
+  res.set('Cache-Control', 'max-age=60');
+
+  var blogConfig = { count: parseInt(req.query.count),
+                     offset: parseInt(req.query.offset),
+                     direction: req.query.direction,
+                     initial: parseInt(req.query.initial) };
+  blog.posts(blogConfig, function(err, posts) {
+    if (err) {
+      res.send(err, 500);
+    } else {
+      console.log(JSON.stringify(posts));
+      res.send(JSON.stringify(posts), 200);
+    }
   });
 };
 

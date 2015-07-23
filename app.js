@@ -68,6 +68,7 @@ app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
 
 app.get('/blog', blog.index);
+app.get('/blog/posts', blog.posts);
 app.get('/blog/:id(\\d+)', blog.getPost);
 app.get('/blog/:id(\\d+)/edit', blog.showEditPost);
 app.post('/blog/:id(\\d+)/edit', blog.edit);
