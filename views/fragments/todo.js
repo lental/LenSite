@@ -14,13 +14,13 @@ function hideLoggedInFields() {
 }
 
 function disableWhileProcessing() {
-  $('#task-form #submit').val('Submitting...');
+  $('#task-form #submit').prop('value', 'Submitting...');
   $('#task-form #submit').attr('disabled', 'disabled');
   $('#task-form #text').attr('disabled', 'disabled');
 }
 
 function reenableAfterProcessing() {
-  $('#task-form #submit').val('Submit');
+  $('#task-form #submit').prop('value', 'Submit');
   $('#task-form #submit').removeAttr('disabled');
   $('#task-form #text').removeAttr('disabled');
 }
