@@ -24,6 +24,9 @@ block content
         h3.date #{posts[i].created_at.toLocaleDateString()}, #{posts[i].created_at.toLocaleTimeString()}
         p.body #{posts[i].body}
     .footer
+      input#initial(type='hidden' value='#{posts[0].id}')
+      input#offset(type='hidden' value='#{posts.length}')
+      button.show-more Show More Posts
       p • This blog is built on my homegrown 
         a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
         | . Check it out on 
