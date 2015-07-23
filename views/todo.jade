@@ -2,6 +2,7 @@ extends layout
 
 block headvars
   - var title = 'Todo'
+  - var whyLogin = "Adding tasks is restricted with OAuth"
   script
     include ../views/fragments/gplus.js
     include ../views/fragments/todo.js
@@ -11,7 +12,7 @@ block content
   .content#todo-content
     .main-title
       h1 #{title}
-    p Lets edit this list
+    p The following is a list of features that I plan on implementing in this app
     .todo
       table.task-list
         - for (var i in tasks)

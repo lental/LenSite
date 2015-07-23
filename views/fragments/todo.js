@@ -3,12 +3,14 @@ function showLoggedInFields() {
   $('#task-form #text').show('slow');
   $('#task-form #submit').show('slow');
   $('.doneify').show('slow');
+  $('.remove').show('slow');
 }
 
 function hideLoggedInFields() {
-  $('#task-form #text').hide();
-  $('#task-form #submit').hide();
-  $('.doneify').hide();
+  $('#task-form #text').hide('slow');
+  $('#task-form #submit').hide('slow');
+  $('.doneify').hide('slow');
+  $('.remove').hide('slow');
 }
 
 function disableWhileProcessing() {

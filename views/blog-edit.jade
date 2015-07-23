@@ -2,6 +2,7 @@ extends layout
 
 block headvars
   - var title = "Blog - Edit"
+  - var whyLogin = "Editing posts is restricted with OAuth"
   script
     include fragments/gplus.js
     include fragments/blog-edit.js
@@ -17,7 +18,7 @@ block content
       if post
         div.back
           p • 
-            a(href='/#{post.id}') Go back to viewing the blog post
+            a(href='.') Go back to viewing the blog post
         input#title-text(type='text', name='title', placeholder='Title' value="#{post.title}")
         textarea#body-text(name='body', placeholder='Body') #{post.body}
         input#id(type='hidden', name='id' value="#{post.id}")

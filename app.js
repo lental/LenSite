@@ -40,6 +40,16 @@ app.use(express.cookieParser(config.session.secretKey));
 app.use(express.session());
 app.use(express.compress());
 app.use(express.methodOverride());
+
+//Remove Trailing Slashes
+app.use(function(req, res, next) {
+  if(req.url.substr(-1) == '/' && req.url.length > 1) {
+    res.redirect(301, req.url.slice(0, -1));
+  } else {
+    next();
+  }
+});
+
 app.use(app.router);
 app.use(stylus.middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 4320000000 } ));
