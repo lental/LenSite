@@ -43,6 +43,7 @@ exports.getDatabaseUserWithPermission = function(pool, plus, oauth2Client, crite
   plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
     if (err) {
       console.log("error gplus people get: " + err);
+      req.session.destroy();
       callback({message: 'Invalid user query', code: 500}, null, null);
     } else {
         //Check to ensure user has permissions to finish tasks
