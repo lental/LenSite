@@ -51,11 +51,15 @@ function showMorePosts() {
                 count: 5 },
         success: function(result) {
           var postArray = JSON.parse(result);
-          for (var i in postArray) {
-            console.log(JSON.stringify(postArray[i]));
-            buildPost(postArray[i]).insertBefore(".footer");
-            $("#offset").val(offset + count);
-          }
+          if (postArray.length != 0) {
+            $(".latest").removeClass("latest");
+            var newGroup = $('<div class="latest post-group"></div>').insertBefore(".footer");
+            for (var i in postArray) {
+              console.log(JSON.stringify(postArray[i]));
+              newGroup.append(buildPost(postArray[i]));
+              $("#offset").val(offset + count);
+            }
+          } 
           if (postArray.length < count) {
             hideMorePostsButton();
           }

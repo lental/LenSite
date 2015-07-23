@@ -108,16 +108,17 @@ $(document).ready( function() {
              url: '/todo/add',
              data: $('#task-form').serialize(), // serializes the form's elements.
              success: function(data) {
-             console.log(data);
-                 var doneifyButton = $('<button class="doneify" data-taskId="' + data.taskId + '">done-ify</button>');
-                 doneifyButton.click(doneifyClick);
-                 var doneifyElem = $('<td class="button-cell"></td>').append(doneifyButton);
-                 var descriptionElem = $('<td class="task-cell">' + data.description  +'</td>');
-                 var removeElem = $('<td class="remove-cell"></td>');
-                 $('<tr class="task-row" data-taskId="' + data.taskId + '"></tr>').append(doneifyElem).append(descriptionElem).append(removeElem).insertBefore('.submit-row');
-                 $('#task-form #text').val("");
-                 $('#task-form #error').text("");
-                 $('#task-form #result').text("Added!");
+               console.log(data);
+               var doneifyButton = $('<button class="doneify" data-taskId="' + data.taskId + '">done-ify</button>');
+               doneifyButton.click(doneifyClick);
+               doneifyButton.show();
+               var doneifyElem = $('<td class="button-cell"></td>').append(doneifyButton);
+               var descriptionElem = $('<td class="task-cell">' + data.description  +'</td>');
+               var removeElem = $('<td class="remove-cell"></td>');
+               $('<tr class="task-row" data-taskId="' + data.taskId + '"></tr>').append(doneifyElem).append(descriptionElem).append(removeElem).insertBefore('.submit-row');
+               $('#task-form #text').val("");
+               $('#task-form #error').text("");
+               $('#task-form #result').text("Added!");
              },
              error: function(jqXHR, textStatus, errorThrown) {
                $('#task-form #error').text("Error: " + errorThrown);
