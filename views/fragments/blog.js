@@ -29,7 +29,7 @@ function buildPost(post) {
   p.body #{posts[i].body}
 */
   var div = $('<div class="post"></div>');
-  var title = $('<h2 class="title">' + post.title + '(</h2>').append('<a href="' + '">Permalink</a>)');
+  var title = $('<h2 class="title">' + post.title + '(</h2>').append('<span class="permalink"><a href="blog/' +post.id+ '">Permalink</a></span>)');
   div.append(title);
 
   var date = new Date(post.created_at);
