@@ -61,6 +61,25 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+Date.prototype.toLocaleDateString = function () {
+  return (this.getMonth() + 1) + "/" + this.getDate() + "/" + this.getFullYear();
+};
+
+Date.prototype.toLocaleTimeString = function () {
+  var d = new Date();
+  var hour = this.getHours();
+  var min = this.getMinutes();
+  var sec = this.getSeconds();
+  var half = "AM";
+  if (hour > 12) {
+     var half = "PM"
+     hour -= 12;
+  } else if (hour === 0) {
+     hour = 12;
+  }
+  return hour + ":" + min + ":" + sec + " " + half;
+};
+
 app.get('/', routes.index);
 app.get('/resume', routes.resume);
 app.get('/ping', routes.ping);
