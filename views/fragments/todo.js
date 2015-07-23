@@ -64,6 +64,7 @@ function doneifyClick(){
                //Show the remove button
                var removeButton = $('<button class="remove" data-taskId="' + data.taskId + '">remove</button>');
                removeButton.click(onRemoveClick);
+               removeButton.show();
                var cell = $('.task-row[data-taskId=' + data.taskId + '] td.remove-cell');
                cell.append(removeButton);
                  
