@@ -24,9 +24,17 @@ var pool  = mysql.createPool({
  */
 exports.index = function(req, res){
   res.set('Cache-Control', 'max-age=60');
-  blog.posts({count:3}, function(err, posts) {
+  var count = 2;
+  var blogConfig = { count: count,
+                     offset: parseInt(req.params.offset),
+                     direction: "older",
+                     initial: parseInt(req.params.initial),
+                     include: true };
+  blog.posts(blogConfig, function(err, posts) {
     console.log(JSON.stringify(posts));
-    res.render('blog', { 'posts': posts });
+    blog.getBounds(function(err2, bounds){
+      res.render('blog', { 'posts': posts, 'count': count, 'bounds':bounds, 'atNewest': posts[0].id == bounds.max, 'atOldest': posts[posts.length-1].id == bounds.min});
+    });
   });
 };
 
