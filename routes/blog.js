@@ -9,7 +9,7 @@ var blog = blogApi.api({
     user    : config.mysql.user,
     database: config.mysql.database,
     password: config.mysql.password,
-    table   : 'blog_posts_test'});
+    table   : 'blog_posts'});
 
 var pool  = mysql.createPool({
     connectionLimit : 10,
@@ -31,10 +31,24 @@ exports.index = function(req, res){
                      initial: parseInt(req.params.initial),
                      include: true };
   blog.posts(blogConfig, function(err, posts) {
-    console.log(JSON.stringify(posts));
-    blog.getBounds(function(err2, bounds){
-      res.render('blog', { 'posts': posts, 'count': count, 'bounds':bounds, 'atNewest': posts[0].id == bounds.max, 'atOldest': posts[posts.length-1].id == bounds.min});
-    });
+    if (err) {
+      res.send(err, 500);
+    } else {
+      console.log(JSON.stringify(posts));
+      blog.getBounds(function(err2, bounds){
+        if (err) {
+          res.send(err2, 500);
+        } else {
+          var params = { 'posts': posts, 'count': count, 'bounds':bounds };
+          if (posts.length > 0) {
+            params.atNewest = posts[0].id == bounds.max;
+            params.atOldest =posts[posts.length-1].id == bounds.min
+          }
+          console.log(JSON.stringify(params))
+          res.render('blog', params);
+        }
+      });
+    }
   });
 };
 

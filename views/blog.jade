@@ -4,10 +4,12 @@ block headvars
   - var title = "Blog"
   - var whyLogin = "Adding posts is restricted with OAuth"
   script
-    | var initial = #{posts[0].id};
-    | var offset = #{posts.length-1};
+    if posts.length > 0
+      | var initial = #{posts[0].id};
+      | var offset = #{posts.length-1};
     | var count = #{count};
-    | var bounds = {min:#{bounds.min}, max:#{bounds.max}};
+    if bounds.min !== null  && bounds.max !== null
+      | var bounds = {min:#{bounds.min}, max:#{bounds.max}};
     include fragments/gplus.js
     include fragments/blog.js
 

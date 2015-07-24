@@ -62,15 +62,15 @@ Create Table: CREATE TABLE `tasks` (
 1 row in set (0.00 sec)</pre>
 
 <pre>
-mysql> show create table blog_posts_test\G
+mysql> show create table blog_posts\G
 *************************** 1. row ***************************
-       Table: blog_posts_test
-Create Table: CREATE TABLE `blog_posts_test` (
+       Table: blog_posts
+Create Table: CREATE TABLE `blog_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(256) DEFAULT NULL,
   `body` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8
-1 row in set (0.00 sec)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.09 sec)
 </pre>

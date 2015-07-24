@@ -54,7 +54,7 @@ $(document).ready( function() {
     if (id === "") {
       url = "/blog/add"
     } else {
-      url = "/blog/" + id + "/edit"
+      url = "/blog/post/" + id + "/edit"
     }
 
     $.ajax({
