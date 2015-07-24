@@ -125,6 +125,7 @@ exports.getPost = function(req, res){
     if (err != null) {
       res.send(err.message, err.code)
     } else {
+      post.body = converter.makeHtml(post.body);
       res.render('blog-post', { 'post': post });
     }
   });

@@ -11,10 +11,11 @@ block content
   include fragments/gbutton.jade
   .content#blog-content
     div.main-title
-      h1 #{post.title}
+      h1.title #{post.title}
     .post
-      h3 #{post.created_at}
-      p #{post.body}
+      h3.date #{post.created_at}
+      .body
+        !{post.body}
     .footer
       div.back
         p • 
