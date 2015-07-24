@@ -19,15 +19,6 @@ function onDisconnect() {
 }
 
 function buildPost(post) {
-/*
-.post
-  h2.title #{posts[i].title} 
-    span.permalink (
-      a(href="blog/#{posts[i].id}") Permalink
-      | )
-  h3.date #{posts[i].created_at.toLocaleDateString()}, #{posts[i].created_at.toLocaleTimeString()}
-  p.body #{posts[i].body}
-*/
   var div = $('<div class="post"></div>');
   var title = $('<h2 class="title">' + post.title + '</h2>').append(' <span class="permalink">(<a href="/blog/post/' +post.id+ '">Permalink</a>)</span>');
   div.append(title);
