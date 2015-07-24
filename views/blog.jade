@@ -31,7 +31,8 @@ block content
                 a(href="/blog/post/#{posts[i].id}") Permalink
                 | )
             h3.date #{posts[i].created_at.toLocaleDateString()}, #{posts[i].created_at.toLocaleTimeString()}
-            p.body #{posts[i].body}
+            .body
+              !{posts[i].body}
 
     if !atOldest
       button.show-older Show Older Posts

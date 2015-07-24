@@ -18,6 +18,8 @@ var pool  = mysql.createPool({
     database: config.mysql.database,
     password: config.mysql.password });
 
+var showdown  = require('showdown'),
+    converter = new showdown.Converter();
 
 /**
  * GET blog
@@ -39,6 +41,7 @@ exports.index = function(req, res){
         if (err) {
           res.send(err2, 500);
         } else {
+          posts.map(function(v, i, a){ v.body = converter.makeHtml(v.body); return v; })
           var params = { 'posts': posts, 'count': count, 'bounds':bounds };
           if (posts.length > 0) {
             params.atNewest = posts[0].id == bounds.max;
@@ -72,6 +75,7 @@ exports.posts = function(req, res){
     if (err) {
       res.send(err, 500);
     } else {
+      posts.map(function(v, i, a){ v.body = converter.makeHtml(v.body); return v; })
       console.log(JSON.stringify(posts));
       res.send(JSON.stringify(posts), 200);
     }
