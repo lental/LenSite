@@ -9,10 +9,10 @@ block headvars
 
 block content
   include fragments/gbutton.jade
-  .content#blog-content
-    div.main-title
-      h1.title #{post.title}
+  .content#blog-post-content
     .post
+      div.main-title
+        h1.title #{post.title}
       h3.date #{post.created_at}
       .body
         !{post.body}
