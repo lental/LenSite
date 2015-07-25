@@ -24,20 +24,20 @@ html
         - var list = ['simple', 'advanced']
         each item in list
           option #{item}
+    .flexbox
+      #nav
+        li
+          a#home(href='/') Home
+        li
+          a#resume(href='/resume') Resume
+        li
+          a#portfolio(href='/portfolio') Portfolio
+        li
+          a#blog(href='/blog') Blog
+        li
+          a#contact(href='/contact') Contact
+        li
+          a#contact(href='/todo') Todo
 
-    #nav
-      li
-        a#home(href='/') Home
-      li
-        a#resume(href='/resume') Resume
-      li
-        a#portfolio(href='/portfolio') Portfolio
-      li
-        a#blog(href='/blog') Blog
-      li
-        a#contact(href='/contact') Contact
-      li
-        a#contact(href='/todo') Todo
-
-    block header
-    block content
+      block header
+      block content

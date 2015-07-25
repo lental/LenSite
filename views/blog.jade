@@ -14,12 +14,12 @@ block headvars
     include fragments/blog.js
 
 block content
-  include fragments/gbutton.jade
   .content#blog-content
     div.main-title
       h1 #{title}
-    div.create-post.requires-login
-      a(href='/blog/createPost') Create New Post
+    div.create-post
+      div.requires-login
+        a(href='/blog/createPost') Create New Post
     if !atNewest
       button.show-newer.show-more Show Newer Posts
     div.posts
@@ -42,3 +42,4 @@ block content
         | . Check it out on 
         a(href='https://github.com/lental/node-mysql-blog-api') Github
         | .
+  include fragments/gbutton.jade

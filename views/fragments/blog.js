@@ -2,10 +2,10 @@
 function onSignInCallback(authResult) {
   helper.onSignInCallback(authResult,
     function(authResult) {
-      $('.create-post').show('slow')
+      $('.requires-login').addClass('logged-in');
     },
     function(authResult) {
-      $('.create-post').hide('slow');
+      $('.requires-login').removeClass('logged-in');
     });
 }
 
@@ -111,7 +111,6 @@ function hideNewerPostsButton() {
 }
 
 $(document).ready( function() {
-  $('.create-post').hide('slow');
   $('.show-older').click(showOlderPosts);
   $('.show-newer').click(showNewerPosts);
 });
