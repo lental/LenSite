@@ -8,7 +8,6 @@ block headvars
     include ../views/fragments/todo.js
 
 block content
-  include fragments/gbutton.jade
   .content#todo-content
     .main-title
       h1 #{title}
@@ -36,3 +35,4 @@ block content
               input#submit(type='submit')
               span#error
               span#result
+  include fragments/gbutton.jade
