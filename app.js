@@ -12,6 +12,7 @@ var express = require('express')
   , user = require('./routes/user')
   , todo = require('./routes/todo')
   , blog = require('./routes/blog')
+  , portfolio = require('./routes/portfolio')
   , config = require('./config/config');
 
 var app = express();
@@ -83,8 +84,8 @@ Date.prototype.toLocaleTimeString = function () {
 app.get('/', routes.index);
 app.get('/resume', routes.resume);
 app.get('/ping', routes.ping);
-app.get('/portfolio', routes.portfolio);
 app.get('/contact', routes.contact);
+app.get('/users', user.list);
 
 app.get('/blog', blog.index);
 app.get('/blog/:initial(\\d+)', blog.index);
@@ -96,7 +97,7 @@ app.post('/blog/post/:id(\\d+)/edit', blog.edit);
 app.post('/blog/add', blog.add);
 app.get('/blog/createPost', blog.newPost);
 
-app.get('/users', user.list);
+app.get('/portfolio', portfolio.index);
 
 app.get('/todo', todo.index);
 app.post('/todo/add', todo.add);

@@ -1,11 +1,22 @@
-//This is the primary global style sheet
-
-@import 'nib'
+//This is the blog-specific style sheet
 
 #blog-content
   .create-post
     height 25px
     text-align center
+
+button.show-more
+  background-color #555
+  border-style double
+  width 100%
+  font-size 20px
+  padding 20px
+  border-color #333
+  color #DDD
+button.show-more:hover
+  background-color #888
+button.show-more:disabled
+  background-color #700
 
 /* Blog Edit Only! */
 #blog-edit-content
@@ -28,19 +39,6 @@
 
 .latest
   background-color #373737
-
-button.show-more
-  background-color #555
-  border-style double
-  width 100%
-  font-size 20px
-  padding 20px
-  border-color #333
-  color #DDD
-button.show-more:hover
-  background-color #888
-button.show-more:disabled
-  background-color #700
 
 .post
   padding 20px
@@ -74,3 +72,4 @@ button.show-more:disabled
   flex  1
   .post
     background-color #373737
+

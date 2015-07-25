@@ -6,7 +6,7 @@ body
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
   background-color #444
   color #DDDDDD
-  margin-bottom 50px
+  margin-bottom 100px
 a
   color: #00B7FF
 
@@ -21,7 +21,7 @@ div.flexbox
 
 div.main-title
   position relative
-  animation-name fade
+  animation-name fade-in
   animation-duration .7s
   animation-timing-function ease-out
   animation-delay 0s
@@ -29,7 +29,7 @@ div.main-title
 .footer
   padding 15px 0px
 
-@keyframes fade 
+@keyframes fade-in
   0%
     opacity 0.0
     left -10px
@@ -37,7 +37,6 @@ div.main-title
     opacity 1.0
     left 0px
 
-/*This is Todo-Only!*/
 
 .g-signin
   display none
@@ -49,14 +48,7 @@ div.main-title
   display block
 
 #gConnect
-  max-width 140px
-  min-width 140px
-
-.authOps
-  float right
-
+  width:140px
 
   #error
     color #CC0000
-
-  /* End Todo */
