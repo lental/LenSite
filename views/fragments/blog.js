@@ -1,3 +1,4 @@
+
 function onSignInCallback(authResult) {
   helper.onSignInCallback(authResult,
     function(authResult) {
@@ -25,7 +26,7 @@ function buildPost(post) {
 
   var date = new Date(post.created_at);
   div.append($('<h3 class="date">' + date.toLocaleDateString() + ', ' + date.toLocaleTimeString() + '</h3>'));
-  div.append($('<p class="body">' + post.body + '</p>'));
+  div.append($('<p class="body"></p>').html(post.body));
   return div;
 }
 

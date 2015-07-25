@@ -10,6 +10,9 @@ block headvars
 block content
   include fragments/gbutton.jade
   .content#blog-post-content
+    div.back
+      p 
+        a(href='/blog/#{post.id}') Go back to blog
     .post
       div.main-title
         h1.title #{post.title}
@@ -17,9 +20,6 @@ block content
       .body
         !{post.body}
     .footer
-      div.back
-        p • 
-          a(href='/blog/#{post.id}') Go back to blog
       div.edit-post
         p • 
           a(href='#{post.id}/edit') edit this post

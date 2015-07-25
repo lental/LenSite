@@ -21,7 +21,7 @@ block content
     div.create-post.requires-login
       a(href='/blog/createPost') Create New Post
     if !atNewest
-      button.show-newer Show Newer Posts
+      button.show-newer.show-more Show Newer Posts
     div.posts
       div.latest.post-group
         - for (var i in posts)
@@ -35,7 +35,7 @@ block content
               !{posts[i].body}
 
     if !atOldest
-      button.show-older Show Older Posts
+      button.show-older.show-more Show Older Posts
     .footer
       p • This blog is built on my homegrown 
         a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
