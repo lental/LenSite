@@ -55,7 +55,7 @@ exports.getDatabaseUserWithPermission = function(pool, plus, oauth2Client, crite
         } else if (db_users.length > 1) {
             console.log("Too many users with the same gplus_id: " + pool.escape(gp_user.id));
             callback({message: 'Invalid user query', code: 500}, null, null);
-        } else if (db_users.length = 0) {
+        } else if (db_users.length == 0) {
             console.log("No users fit criteria: " + criteria);
             callback({message: 'Unauthorized', code: 401}, null, null);
         } else {
