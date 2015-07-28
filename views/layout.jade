@@ -5,7 +5,6 @@ html
       include ../public/stylesheets/style.css
     script
       include ../public/javascripts/jquery-min.js
-      include ../views/fragments/common.js
 
     meta(name='google-site-verification', content='hfebnc_1ojHT1XJiX6mHKUhCTKuYoLvm7XYLQ8OcDaI')
 
@@ -16,11 +15,6 @@ html
   body.simple
     #head
       img#ml(src='/images/logo.png')
-    div
-      select.ui-selector
-        - var list = ['simple', 'advanced']
-        each item in list
-          option #{item}
     .flexbox
       #nav
         li
