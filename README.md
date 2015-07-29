@@ -74,3 +74,20 @@ Create Table: CREATE TABLE `blog_posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 1 row in set (0.09 sec)
 </pre>
+
+<pre> 
+
+mysql> show create table portfolio_projects\G
+*************************** 1. row ***************************
+       Table: portfolio_projects 
+CREATE TABLE `portfolio_projects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(256) DEFAULT NULL,
+  `body` text,
+  `thumbnail_image` varchar(512),
+  `detailed_image` varchar(512),
+  `redirect_url` varchar(512),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`)
+) 
+</pre>

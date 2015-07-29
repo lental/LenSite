@@ -24,4 +24,6 @@ block content
 
     p The following is a short list of projects I have worked on in the past.  Some are small personal projects, others are open-sourced projects from work.
     .projects
-      .project
+      - for (var i in projects)
+        .project
+          img.project-thumbnail(src="#{projects[i].thumbnail_image}")
