@@ -62,3 +62,9 @@ $(document).ready( function() {
         }
       });
 });
+
+function expandProject(index) {
+  $('img.project-image').attr('src',projects[index].detailed_image);
+  $('p.project-description').text(projects[index].body);
+  $('a.project-link').attr('href', projects[index].redirect_url);
+}

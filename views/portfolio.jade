@@ -5,6 +5,9 @@ block headvars
 
   script
     include fragments/portfolio.js
+  script.
+    var projects=!{JSON.stringify(projects)}
+
 
 block content
   .content#portfolio-content
@@ -12,18 +15,26 @@ block content
       h1 #{title}
     p This page has a short portfolio which contains some of my most recent endeavors in various fields
 
+    h2 Flickr
     p The following are my most recent photographs I featured in my 
       a(href="flickr.com/photos/michaellen") Flickr
-      | .
+      | . Click on an image to see the full size
     .flickr-images
 
+    h2 Youtube
     p The following are my latest videos that I've posted on 
       a(href="https://www.youtube.com/user/lenkid") Youtube
-      | .
+      | . Click on a thumbnail to watch the video.
     .youtube-videos
 
-    p The following is a short list of projects I have worked on in the past.  Some are small personal projects, others are open-sourced projects from work.
+    h2 Projects
+    p The following is a short list of projects I have worked on in the past.  Some are small personal projects, others are open-sourced projects from work. Click on a thumbnail to learn more.
     .projects
       - for (var i in projects)
         .project
-          img.project-thumbnail(src="#{projects[i].thumbnail_image}")
+          a(href="#project-details" onclick="expandProject(#{i})")
+            img.project-thumbnail(src="#{projects[i].thumbnail_image}")
+    #project-details
+      a.project-link(href="#project-details")
+        img.project-image
+      p.project-description
