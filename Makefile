@@ -13,5 +13,3 @@ install:
 	mkdir -p public/javascripts
 	npm install
 	$(shell npm bin)/bower install
-	git submodule update
-	git submodule init
