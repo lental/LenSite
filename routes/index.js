@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.set('Cache-Control', 'max-age=4320000');
+  res.set('Cache-Control', 'max-age=10');
   res.render('index', { title: 'Home' });
 };
 
@@ -14,7 +14,7 @@ exports.index = function(req, res){
  */
 
 exports.resume = function(req, res){
-  res.set('Cache-Control', 'max-age=4320000');
+  res.set('Cache-Control', 'max-age=10');
   res.render('resume');
 };
 
@@ -23,7 +23,7 @@ exports.resume = function(req, res){
  */
 
 exports.portfolio = function(req, res){
-  res.set('Cache-Control', 'max-age=4320000');
+  res.set('Cache-Control', 'max-age=10');
   res.render('portfolio');
 };
 
@@ -40,6 +40,6 @@ exports.ping = function(req, res) {
  */
 
 exports.contact = function(req, res){
-  res.set('Cache-Control', 'max-age=4320000');
+  res.set('Cache-Control', 'max-age=10');
   res.render('contact');
 };
