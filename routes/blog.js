@@ -56,6 +56,29 @@ exports.index = function(req, res){
 };
 
 /**
+ * GET blog/list
+ */
+exports.list = function(req, res){
+  res.set('Cache-Control', 'max-age=60');
+  blog.allTitles(function(err, posts) {
+    if (err) {
+      res.send(err, 500);
+    } else {
+      console.log(JSON.stringify(posts));
+      blog.getBounds(function(err2, bounds){
+        if (err) {
+          res.send(err2, 500);
+        } else {
+          var params = { 'posts': posts };
+          console.log(JSON.stringify(params))
+          res.render('blog-list', params);
+        }
+      });
+    }
+  });
+};
+
+/**
  * GET blog/posts?
 
  * config.count  : number of posts desired, default 1

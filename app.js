@@ -96,6 +96,7 @@ app.get('/blog/post/:id(\\d+)/edit', blog.showEditPost);
 app.post('/blog/post/:id(\\d+)/edit', blog.edit);
 app.post('/blog/add', blog.add);
 app.get('/blog/createPost', blog.newPost);
+app.get('/blog/list', blog.list);
 
 app.get('/portfolio', portfolio.index);
 

@@ -1,0 +1,31 @@
+extends layout
+
+block headvars
+  - var title = "Blog"
+  - var whyLogin = "Adding posts is restricted with OAuth"
+  script
+    include fragments/gplus.js
+    include fragments/blog.js
+
+block content
+  .content#blog-content
+    div.main-title
+      h1 #{title}
+    div.create-post
+      div.requires-login
+        a(href='/blog/createPost') Create New Post
+    div.posts
+      div.latest.post-group
+        p The following is a list of all posts on this blog
+        ul
+        - for (var i in posts)
+          li 
+            p #{posts[i].created_at.toLocaleDateString()} 
+              a(href="/blog/post/#{posts[i].id}") #{posts[i].title} 
+    .footer
+      p • This blog is built on my homegrown 
+        a(href='https://www.npmjs.com/package/node-mysql-blog-api') node-mysql-blog-api
+        | . Check it out on 
+        a(href='https://github.com/lental/node-mysql-blog-api') Github
+        | .
+  include fragments/gbutton.jade
