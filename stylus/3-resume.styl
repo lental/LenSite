@@ -7,6 +7,7 @@
     max-width 1000px
     display flex
     align-items flex-start
+    page-break-after always
   .me-resume
     flex 0 0 auto
     padding 10px
@@ -36,6 +37,7 @@
 
   .job-title
     margin 5px
+    font-weight bold
 
   .job-time
     font-style italic
@@ -59,5 +61,14 @@
       padding-left 20px
   #accolades
     max-width 400px
+  .print-text
+    display none
+
+
+  @media print
+    .print-text
+      display block
+//    .main-title
+//      display none
 //  #languages
 //  #other-skills
