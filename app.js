@@ -17,18 +17,6 @@ var express = require('express')
 
 var app = express();
 
-setInterval(function() {
-  var host;
-  if (process.env.PORT) {
-    host = "http://lensite.herokuapp.com";
-  }
-  else {
-    host = "http://localhost:3000";
-  }
-  console.log("pinging host " + host);  
-  http.get(host + "/ping");
-}, 300000);
-
 // all environments
 app.locals.basedir = "/Users/len/repos/LenSite/"
 app.set('port', process.env.PORT || 3000);
