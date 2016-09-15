@@ -91,3 +91,16 @@ CREATE TABLE `portfolio_projects` (
   UNIQUE KEY `id` (`id`)
 ) 
 </pre>
+
+
+insert into portfolio_projects (title, body, thumbnail_image, detailed_image, redirect_url) values 
+("Mass Warfare",
+"Mass Warfare was an idea for a massively multiplayer casual/idler game.  Every user is randomly assigned a team.  These users all control an army unit that spawns from their root node, running randomly to the enemy root node.  Just by keeping the site open, users will continue to spawn units for the team.  However, the user can also define a route that they want their units to travel by clicking on their root node, and dragging a path to the enemy node. Doing so can add a tactical advantage to your team's army, reinforcing specific areas in the front line. 
+
+MassWarfare was my first actual attempt at a long-lived application, and I'm pretty happy it still runs (when the heroku instance is up). The game logic is pretty much done, and it needed a little more UX polish and tutorial to make it interesting. Some of the harder challenges was to ensure people don't spoof the game into making multiple accounts.
+
+This application uses: node.js, heroku, and mysql. I use Raphael to render the application entirely in SVG.  This makes the app work just fine on both Android and iOS browsers.",
+
+"/images/portfolio/masswarfarethumb.png",
+"/images/portfolio/masswarfarefull.png",
+"https://masswarfare.herokuapp.com/")
