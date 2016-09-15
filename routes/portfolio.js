@@ -13,7 +13,7 @@ var pool  = mysql.createPool({
 
 exports.index = function(req, res){
   res.set('Cache-Control', 'max-age=4320000');
-  pool.query('SELECT * from portfolio_projects', function(err, rows, fields) {
+  pool.query('SELECT * from portfolio_projects order by id desc', function(err, rows, fields) {
     if (err) {
       console.log("portfolio select user error: " + err);
     }
