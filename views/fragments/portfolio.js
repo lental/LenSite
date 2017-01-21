@@ -64,7 +64,9 @@ $(document).ready( function() {
 });
 
 function expandProject(index) {
+  $('.project-title').text(projects[index].title);
+  $('a.project-title').attr('href', projects[index].redirect_url);
   $('img.project-image').attr('src',projects[index].detailed_image);
-  $('p.project-description').text(projects[index].body);
+  $('p.project-description').html(projects[index].body);
   $('a.project-link').attr('href', projects[index].redirect_url);
 }

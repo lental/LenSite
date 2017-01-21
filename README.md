@@ -30,6 +30,9 @@ export LENSITE_DB_DATABASE_NAME=
 export NEW_RELIC_LICENSE_KEY=
 </pre>
 
+# to access database, go to Heroku, check out config vars to find mysql server with all creds
+mysql -A -h"" -p"" -u""
+
 <pre>
 mysql> show create table users\G
 *************************** 1. row ***************************

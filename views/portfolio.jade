@@ -28,13 +28,16 @@ block content
     .youtube-videos
 
     h2 Projects
-    p The following is a short list of projects I have worked on in the past.  Some are small personal projects, others are open-sourced projects from work. Click on a thumbnail to learn more.
+    p The following is a short list of projects I have worked on in the past.  Some are small personal projects, others are open-sourced projects from work.
+    p Click on a thumbnail to learn more, and click on the larger image to open up the project!
     .projects
       - for (var i in projects)
         .project
           a(href="#project-details" onclick="expandProject(#{i})")
             img.project-thumbnail(src="#{projects[i].thumbnail_image}")
     #project-details
+      h1
+        a.project-title
       a.project-link(href="#project-details")
         img.project-image
       p.project-description
