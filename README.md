@@ -16,6 +16,8 @@ Daemonized:
   to stop: sudo node daemon stop
   to restart: sudo node daemon restart
 
+Push:
+  git push heroku master
 
 You will need:
 the following environment variables created
