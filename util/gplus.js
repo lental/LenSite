@@ -40,11 +40,12 @@ exports.findTokenAndProcess = function(config, req, res, callback) {
 }
 
 exports.getDatabaseUserWithPermission = function(pool, plus, oauth2Client, criteria, callback) {
-  plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_user) {
+  plus.people.get({ userId: 'me', auth:oauth2Client},function (err, gp_response) {
     if (err) {
       console.log("error gplus people get: " + err);
       callback({message: 'Invalid user query', code: 500}, null, null);
     } else {
+      var gp_user = gp_response.data;
         //Check to ensure user has permissions to finish tasks
       var query = 'SELECT * from users where gplus_id=' + pool.escape(gp_user.id) + ' AND ' + criteria + ';';
       pool.query(query, function(err, db_users, fields) {
