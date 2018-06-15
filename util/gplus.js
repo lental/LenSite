@@ -2,7 +2,7 @@
 //Retrieve token from session or use the provided auth code
 exports.findTokenAndProcess = function(config, req, res, callback) {
   var redirectUri = "postmessage";
-  var google = require('googleapis'),
+  var {google} = require('googleapis'),
       OAuth2 = google.auth.OAuth2;
 
   //Get the G+ API
